@@ -20,7 +20,14 @@
 	</properties>
 
 	<dependencies>
-	
+		
+				<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		</dependency>
+		
+		
 		<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>

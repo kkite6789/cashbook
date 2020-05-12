@@ -4,7 +4,7 @@ public class Member {
 	private String memberId;
 	private String memberPw;
 	private String memberName;
-	private String memberaddr;
+	private String memberAddr;
 	private String memberPhone;
 	private String memberEmail;
 	
@@ -26,11 +26,11 @@ public class Member {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-	public String getMemberaddr() {
-		return memberaddr;
+	public String getMemberAddr() {
+		return memberAddr;
 	}
-	public void setMemberaddr(String memberaddr) {
-		this.memberaddr = memberaddr;
+	public void setMemberAddr(String memberAddr) {
+		this.memberAddr = memberAddr;
 	}
 	public String getMemberPhone() {
 		return memberPhone;
@@ -47,7 +47,7 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
-				+ ", memberaddr=" + memberaddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + "]";
+				+ ", memberAddr=" + memberAddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + "]";
 	}
 	
 	
