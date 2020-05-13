@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http//www.thymeLeaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -57,23 +57,70 @@
 			}
 
 		});
+		$('#idBtn').click(function() {
+			$('#idForm').submit();
+		});
 	});
 </script>
+<style>
+	.card{
+	width:680px;
+	height:816px;
+	float:center;
+	top:5%;
+	
+	}
+	#btn{
+	width:300px;
+	height:38px;
+	}
+	#memberIdCheck{
+	width:300px;
+	height:40px;
+	}
+	#memberId,#memberPw,#memberPw2,#memberName,#memberPhone,#memberAddr,#memberEmail{
+	width:300px;
+	height:40px;
+	align:center;
+	}
+</style>
 </head>
 <body>
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-4"></div>
+			<div class="col-sm-2"></div>
 			<div class="col-sm-4">
-			
+				<div class="card">
+   				 <div class="card-body text-center">
+				<h1>회원가입</h1>
+				<br>
+				<form id="idForm" method="post" action="/checkMemberId">
+					<div class="row">
+					<div  class="col-sm-3"></div>
+					<div class="col-sm-4; text-left">
+					<div class="form-group">
+						 아이디 중복 확인 <input class="form-control" type="text" name="memberIdCheck" id="memberIdCheck">
+						
+						<span th:text="${msgCheck}"></span>
+					</div>
+					</div>
+					<div  class="col-sm-3">
+					<br>
+					<button class="btn btn-secondary" id="idBtn" type="button" style="height:38px;">중복체크</button>
+					</div>
+					
+					</div>
+				</form>
+		
 			
 				<form id="myform" method="post" action="/addMember">
-				<fieldset>
-					<h1>회원가입</h1>
+				<div class="row">
+				<div  class="col-sm-3"></div>
+					<div class="col-sm-4; text-left">
 					<div class="form-group">
-						아이디 <input class="form-control" type="text" name="memberId"
-							id="memberId"> <span id="idHelper"></span>
+						아이디 <input class="form-control" type="text" name="memberId" th:value="${memberIdCheck}"
+							id="memberId" readonly="readonly"> <span id="idHelper"></span>
 					</div>
 					<div class="form-group">
 						비밀번호 <input class="form-control" type="text" name="memberPw"
@@ -102,11 +149,18 @@
 					<div>
 						<button class="btn btn-primary" type="button" id="btn">회원가입</button>
 					</div>
-					</fieldset>
+					</div>
+					<div class="col-sm-4"></div>
+					</div>
+					
 				</form>
+				</div>
 				
-			</div>
-			<div class="col-sm-4"></div>
+				</div>
+				</div>
+			
+			
+			
 		</div>
 	</div>
 </body>
