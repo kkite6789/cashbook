@@ -16,6 +16,12 @@
 	<div class="container">
 		<h1 class="text-center">가계부</h1>
 		<br>
+		<div th:if="${session.loginMember != null}">ON
+			<a href="/logout" class="btn btn-primary">로그아웃</a>
+		</div>
+		<div th:if="${session.loginMember == null}">OFF
+			<a href="/login" class="btn btn-primary">로그인</a>
+		</div>
 		<br>
 		<h1 class="text-center">시작하기</h1>
 		<br>

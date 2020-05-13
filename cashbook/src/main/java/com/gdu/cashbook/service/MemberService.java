@@ -9,13 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.cashbook.mapper.MemberMapper;
+import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
 
 @Service
-@Transactional
+@Transactional// 
 public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
+	
+	public LoginMember login(LoginMember loginMember) {
+		return memberMapper.selectLoginMember(loginMember);
+	}
 	
 	public List<Member> getMemberList(int currentPage,int rowPerPage){
 		Map<String,Object> map = new HashMap<>();
