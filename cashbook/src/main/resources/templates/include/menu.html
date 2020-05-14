@@ -7,20 +7,42 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+#a{
+color: black;
+}
+
+</style>
+
+
 </head>
 <body>
 	<!-- fragment1 -->
 	<div th:fragment="sidemenu"> <!-- menu:sidemenu -->
 		<div>
-			<span th:text="${session.loginMember.memberId}"></span>
-			<span>님 반갑습니다.</span>
+			
+			<br>
+			<br>
+			<img src="@{/img/2.jpeg}" width="70" height="70">
+			<br>
+			
+			<br>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span th:text="${session.loginMember.memberId}"></span>님 반갑습니다.
+			
 		</div>
 		<ul>
-			<li><a th:href="@{/home}">홈</a></li>
-			<li><a th:href="@{/memberInfo}">회원정보</a></li>
-			<li><a th:href="@{/cashbookList}">가계부관리</a></li>
-			<li><a th:href="@{/boardList}">게시판</a></li>
-			<li><a th:href="@{/logout}">로그아웃</a></li>
+		<br>
+			<li><a style="color: black;" id="a" th:href="@{/home}">홈</a></li>
+			<br>
+			<li><a style="color: black;"  id="a" th:href="@{/memberInfo}">회원정보</a></li>
+			<br>
+			<li><a style="color: black;"  id="a" th:href="@{/cashbookList}">가계부관리</a></li>
+			<br>
+			<li><a style="color: black;"  id="a" th:href="@{/boardList}">게시판</a></li>
+			<br>
+			<li><a style="color: black;"  id="a" th:href="@{/logout}">로그아웃</a></li>
 		</ul>
 	
 	</div>

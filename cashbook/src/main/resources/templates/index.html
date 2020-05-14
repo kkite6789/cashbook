@@ -35,10 +35,14 @@
 				<h1 class="text-center">시작하기</h1>
 				<br>
 				<div class="text-center" th:if="${session.loginMember != null}">
-					ON <br> <a href="/logout" class="btn btn-primary">로그아웃</a>
+					<p class="text-primary">ON</p> 
+					<br> 
+					<a href="/logout" class="btn btn-primary">로그아웃</a>
 				</div>
 				<div class="text-center" th:if="${session.loginMember == null}">
-					OFF <br> <a href="/login" class="btn btn-primary">로그인</a>
+					<p class="text-danger">OFF </p>
+					<br> 
+					<a href="/login" class="btn btn-primary">로그인</a>
 				</div>
 
 				<br> <br>
