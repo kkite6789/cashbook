@@ -19,6 +19,29 @@ import com.gdu.cashbook.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	@GetMapping("/replaceMember")
+	public String replaceMember(Model model,HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		String memberId=member.getMemberId();
+		System.out.println("memberId -> "+ memberId);
+		model.addAttribute("memberId", memberId);
+		return "replaceMember";
+	}
+	@PostMapping("/replaceMember")
+	public String replaceMember(Member member,HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		System.out.println(member.toString());
+		memberService.replaceMember(member);
+		
+		return "redirect:/home";
+		
+	}
+	
 	
 	@GetMapping("/removeMember")
 	public String removeMember(HttpSession session) {
@@ -27,8 +50,12 @@ public class MemberController {
 		}
 		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
 		String memberId=member.getMemberId();
+		String deletedMemberId = memberId;
+		System.out.println(memberId+"<--memberId");
+		System.out.println(deletedMemberId+"<--deletedMemberId");
 		session.invalidate();
 		memberService.removeMember(memberId);
+		memberService.addDeletedMember(deletedMemberId);
 		return "redirect:/home";
 	}
 	

@@ -9,11 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.cashbook.mapper.MemberMapper;
+import com.gdu.cashbook.vo.DeletedMember;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
 
 @Service
-@Transactional// 
+@Transactional// 트랜잭션
 public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
@@ -42,6 +43,12 @@ public class MemberService {
 	}
 	public int removeMember(String memberId) {
 		return memberMapper.deleteMember(memberId);
+	}
+	public int addDeletedMember(String deletedMemberId) {
+		return memberMapper.insertDeletedMember(deletedMemberId);
+	}
+	public int replaceMember(Member member) {
+		return memberMapper.updateMember(member);
 	}
 	
 }

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script>
+  let helperInit = function() {
+		$('#pwHelper').text("");
+		$('#nameHelper').text("");
+		$('#addrHelper').text("");
+		$('#phoneHelper').text("");
+		$('#emailHelper').text("");
+	}
+  
+  $(document).ready(function() {
+		$('#btn').click(function() {
+			  if ($('#memberPw').val().length < 4) {
+				helperInit();
+				$('#pwHelper').text("PW는 4자 이상");
+				$('#memberPw').focus();
+			} else if ($('#memberPw').val() != $('#memberPw2').val()) {
+				helperInit();
+				$('#pwHelper').text("PW를 확인하세요.");
+				$('#memberPw').focus();
+			} else if ($('#memberName').val().length === 0) {
+				helperInit();
+				$('#nameHelper').text("Name을 입력하세요");
+				$('#memberName').focus();
+			} else if ($('#memberAddr').val().length === 0) {
+				helperInit();
+				$('#addrHelper').text("Addr을 입력하세요");
+				$('#memberAddr').focus();
+			} else if ($('#memberPhone').val().length === 0) {
+				helperInit();
+				$('#phoneHelper').text(" phone을 입력하세요");
+				$('#memberPhone').focus();
+			} else if ($('#memberEmail').val().length === 0) {
+				helperInit();
+				$('#emailHelper').text("email을 입력하세요");
+				$('#memberEmail').focus();
+			} else {
+				$('#myform').submit();
+			}
+
+		});
+	});
+  </script>
+  
+  
+</head>
+<body>
+<div class="container">
+	<h1>회원수정</h1>
+	<form method="post" action="/replaceMember" id="myform">
+		<table>
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="memberId" id="memberId" th:value="${memberId}" readonly="readonly"></td>
+				
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td>
+					<input type="text" name="memberPw" id="memberPw">
+					<span id="pwHelper"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>비밀번호확인</td>
+				<td>
+					<input type="text" name="memberPw2" id="memberPw2">
+				</td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td>
+					<input type="text" name="memberName" id="memberName">
+					<span id="nameHelper"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>주소</td>
+				<td>
+					<input type="text" name="memberAddr" id="memberAddr">
+					<span id="addrHelper"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>폰번호</td>
+				<td>
+					<input type="text" name="memberPhone" id="memberPhone">
+					<span id="phoneHelper"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>이메일</td>
+				<td>
+					<input type="text" name="memberEmail" id="memberEmail">
+					<span id="emailHelper"></span>
+				</td>
+			</tr>
+		</table>
+			<button type="button" id="btn" name="btn">회원수정</button>
+	</form>
+</div>
+</body>
+</html>

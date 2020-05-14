@@ -23,11 +23,11 @@
 
 	$(document).ready(function() {
 		$('#btn').click(function() {
-			
-			if ($('#checkMemberId').val().length < 4) {
+			if($('#memberId').val().length < 4) {
 				helperInit();
-				$('#idCheckHelper').text("ID는 4자 이상");
-				$('#checkMemberId').focus();
+				$('#idHelper').text("ID는 4자 이상");
+				$('#memberId').focus();
+				
 			} else if ($('#memberPw').val().length < 4) {
 				helperInit();
 				$('#pwHelper').text("PW는 4자 이상");
@@ -58,7 +58,12 @@
 
 		});
 		$('#idBtn').click(function() {
+			if($('#memberIdCheck').val().length < 4) {
+				$('#idCheckHelper').text("ID는 4자 이상");
+				$('#memberIdCheck').focus();
+			} else{
 			$('#idForm').submit();
+			}
 		});
 	});
 </script>
@@ -146,7 +151,7 @@
 							id="memberEmail"> <span id="emailHelper"></span>
 					</div>
 					<div>
-						<button class="btn btn-primary" type="button" id="btn">회원가입</button>
+						<button class="btn btn-primary" id="btn" type="button">회원가입</button>
 					</div>
 					</div>
 					<div class="col-sm-4"></div>

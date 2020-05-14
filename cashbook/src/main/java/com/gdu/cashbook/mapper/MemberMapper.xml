@@ -18,12 +18,22 @@
   			WHERE member_id=#{memberId}
 
   </select>
-  
+  <insert id="insertDeletedMember" parameterType="String">
+  	INSERT INTO deletedmember(
+		member_id
+    )	VALUES(
+    	#{memberId}
+    )
+  </insert>
   
   <select id="selectMemberId" parameterType="String" resultType="String">
   	SELECT
   		member_id
-  	FROM member
+  	FROM(
+  		SELECT member_id from member
+  		UNION
+  		SELECT member_id from deletedmember
+		)t
   	WHERE member_id=#{memberIdCheck}
   	
   </select>
@@ -33,7 +43,7 @@
   		member_pw as memberPw
   	FROM member
   	WHERE member_id=#{memberId}
-  	  AND member_pw=#{memberPw}
+  	  AND member_pw=PASSWORD(#{memberPw})
   </select>
    <select id="selectmemberList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.Member">
   	SELECT 
@@ -51,8 +61,21 @@
   DELETE
   FROM member
   WHERE member_id=#{memberId}
-  
   </delete>
+  
+  <update id="updateMember" parameterType="com.gdu.cashbook.vo.Member">
+  	Update 
+  		member
+  	SET
+  		member_pw=PASSWORD(#{memberPw}),
+  		member_name=#{memberName},
+  		member_addr=#{memberAddr},
+  		member_phone=#{memberPhone},
+  		member_email=#{memberEmail}
+  	WHERE
+  		member_id=#{memberId}
+  	
+  </update>
    <insert id="insertMember" parameterType="com.gdu.cashbook.vo.Member">
 	INSERT INTO member(
 		member_id,
@@ -64,7 +87,7 @@
     	
     )	VALUES(
     		#{memberId},
-    		#{memberPw},
+    		PASSWORD(#{memberPw}),
     		#{memberName},
     		#{memberAddr},
     		#{memberPhone},
