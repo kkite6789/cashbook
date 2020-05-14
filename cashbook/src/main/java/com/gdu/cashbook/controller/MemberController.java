@@ -20,12 +20,34 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@GetMapping("/removeMember")
+	public String removeMember(HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		String memberId=member.getMemberId();
+		session.invalidate();
+		memberService.removeMember(memberId);
+		return "redirect:/home";
+	}
+	
+	@GetMapping("/memberInfo")
+	public String memberInfo(HttpSession session, Model model) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		System.out.println(member+"<--member");
+		model.addAttribute("member",member);
+		return "memberInfo";
+	}
 	
 	@PostMapping("/checkMemberId")
 	public String checkMemberId(Model model,@RequestParam("memberIdCheck") String memberIdCheck, HttpSession session) {
 		//로그인 중일 때
 				if(session.getAttribute("loginMember") != null){
-					return "redirect/";
+					return "redirect:/";
 				}
 		String confirmMemberId = memberService.checkMemberId(memberIdCheck);
 		System.out.println(confirmMemberId+" <- confirmMemberId");
@@ -45,7 +67,7 @@ public class MemberController {
 	@GetMapping("/forgotId")
 	public String forgotId(HttpSession session) {
 		if(session.getAttribute("loginMember") != null){//로그인 중일 때
-			return "redirect/";
+			return "redirect:/";
 		}
 		//로그인 안됐을 때 
 		return  "forgotId";
@@ -55,7 +77,7 @@ public class MemberController {
 	public String login(HttpSession session) {//로그인 안됐을때만 나오게하려고 매개변수로 세션을 넣는다.
 		//로그인 중일 때
 		if(session.getAttribute("loginMember") != null){
-			return "redirect/";
+			return "redirect:/";
 		}
 		//로그인 안됐을 때 
 		return "login";
@@ -63,7 +85,7 @@ public class MemberController {
 	@PostMapping("/login")// 로그인 폼에서 받은 정보를 받고 액션을 취한다.
 	public String login(Model model,LoginMember loginMember, HttpSession session) {//session = request.getSession()
 		if(session.getAttribute("loginMember") != null){
-			return "redirect/";
+			return "redirect:/";
 		}
 		
 		System.out.println(loginMember.toString());
@@ -81,8 +103,8 @@ public class MemberController {
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		if(session.getAttribute("loginMember") != null){
-			return "redirect/";
+		if(session.getAttribute("loginMember") == null){
+			return "redirect:/";
 		}
 		session.invalidate();
 		return "redirect:/";
@@ -91,14 +113,14 @@ public class MemberController {
 	@GetMapping("/addMember")
 	public String addMember(HttpSession session) {
 		if(session.getAttribute("loginMember") != null){
-			return "redirect/";
+			return "redirect:/";
 		}
 		return "addMember";
 	}
 	@PostMapping("/addMember") 
 	public String addMember(Member member,HttpSession session) {//commender
 		if(session.getAttribute("loginMember") != null){
-			return "redirect/";
+			return "redirect:/";
 		}
 		memberService.AddMember(member);
 		System.out.println(member.toString());

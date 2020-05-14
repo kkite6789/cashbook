@@ -17,6 +17,10 @@ import com.gdu.cashbook.vo.Member;
 public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
+
+	public Member getMemberOne(LoginMember loginMember) {
+		return memberMapper.selectMemberOne(loginMember);
+	}
 	
 	public String checkMemberId(String memberIdCheck) {
 		return memberMapper.selectMemberId(memberIdCheck); // 결과물은 memberId나 null이 리턴된다
@@ -35,6 +39,9 @@ public class MemberService {
 	}
 	public int AddMember(Member member) {
 		return memberMapper.insertMember(member);
+	}
+	public int removeMember(String memberId) {
+		return memberMapper.deleteMember(memberId);
 	}
 	
 }

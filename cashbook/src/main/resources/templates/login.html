@@ -14,11 +14,6 @@
 <script>
 	$(document).ready(function() {
 		$('#btn').click(function() {
-			if ($('#memberId').val().length < 4) {
-				alert('id,pw를 확인하세요.');
-			} else if ($('#memberPw').val().length < 4) {
-				alert('id,pw를 확인하세요.');
-			}
 			$('#loginForm').submit();
 			//submit코드를 독립적으로 실행할 수 있게 설정하는게 좋다.
 		});
@@ -50,12 +45,12 @@
 				<form method="post" action="/login" id="loginForm">
 					
 						<div  class="form-group">
-							 <input class="form-control" type="text" id="memberIdCheck" name="memberId" placeholder="아이디">
+							 <input class="form-control" type="text" id="memberIdCheck" name="memberId" placeholder="아이디" value="kkt1">
 							<span id=""></span>
 						</div>
 						<br>
 						<div class="form-group">
-							 <input class="form-control" type="password" id="memberPw" name="memberPw" placeholder="비밀번호">
+							 <input class="form-control" type="password" id="memberPw" name="memberPw" placeholder="비밀번호" value="1111">
 						</div>
 						<br>
 						<div th:text="${msgLogin}"></div>
@@ -65,7 +60,7 @@
 						</div>
 						<br>
 						<span>
-							<button class=" btn btn-primary" type="button" id="btn">로그인</button>
+							<button class="btn btn-primary" type="button" id="btn">로그인</button>
 						</span>
 						<br>
 						<br>
