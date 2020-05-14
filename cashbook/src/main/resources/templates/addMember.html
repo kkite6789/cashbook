@@ -23,11 +23,11 @@
 
 	$(document).ready(function() {
 		$('#btn').click(function() {
-
-			if ($('#memberId').val().length < 4) {
+			
+			if ($('#checkMemberId').val().length < 4) {
 				helperInit();
-				$('#idHelper').text("ID는 4자 이상");
-				$('#memberId').focus();
+				$('#idCheckHelper').text("ID는 4자 이상");
+				$('#checkMemberId').focus();
 			} else if ($('#memberPw').val().length < 4) {
 				helperInit();
 				$('#pwHelper').text("PW는 4자 이상");
@@ -101,8 +101,7 @@
 					<div class="col-sm-4; text-left">
 					<div class="form-group">
 						 아이디 중복 확인 <input class="form-control" type="text" name="memberIdCheck" id="memberIdCheck">
-						
-						<span th:text="${msgCheck}"></span>
+						<span th:text="${msgCheck}" id="idCheckHelper"></span>
 					</div>
 					</div>
 					<div  class="col-sm-3">

@@ -75,7 +75,7 @@ public class MemberController {
 		} else { //로그인 성공할때 그대로 진행
 			
 			session.setAttribute("loginMember", returnLoginMember);
-			return "redirect:/";
+			return "redirect:/home";
 		}
 	}
 	
