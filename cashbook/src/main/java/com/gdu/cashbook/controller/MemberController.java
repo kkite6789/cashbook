@@ -42,7 +42,7 @@ public class MemberController {
 		model.addAttribute("msg", msg);
 		return "memberPwView";
 	}
-	
+	//아이디 찾기 get
 	@GetMapping("/findMemberId")
 	public String findMemberId(HttpSession session) {
 		if(session.getAttribute("loginMember") != null) {
@@ -50,11 +50,13 @@ public class MemberController {
 		}
 		return "findMemberId";
 	}
+	//아이디 찾기 post
 	@PostMapping("/findMemberId")
 	public String findMemberId(HttpSession session, Model model, Member member) {
 		if(session.getAttribute("loginMember") != null) {
 			return "redirect:/";
 		}
+		
 		System.out.println(member.toString()+"<--member");
 		String memberIdPart = memberService.getMemberIdByMember(member);
 		System.out.println(memberIdPart+"<--memberIdPart");

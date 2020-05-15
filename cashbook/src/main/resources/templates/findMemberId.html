@@ -20,20 +20,21 @@ $(document).ready(function() {
 <body>
 <div class="container">
 	<h1>아이디 찾기</h1>
-	<form id="myform" method="post" th:action="@{/findMemberId}"></form>
+	<form id="myform" method="post" th:action="@{/findMemberId}">
 	<div>
 		member_name:
-		<input type="text" name="memberName">
+		<input type="text" name="memberName" id="memberName">
 	</div>
 	<div>
 		member_phone:
-		<input type="text" name="memberPhone">
+		<input type="text" name="memberPhone" id="memberPhone">
 	</div>
 	<div>
 		member_email:
-		<input type="text" name="memberEmail">
+		<input type="text" name="memberEmail" id="memberEmail">
 	</div>
 	<button type="button" id="btn">찾기</button>
+	</form>
 </div>
 </body>
 </html>

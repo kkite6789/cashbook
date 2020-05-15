@@ -3,135 +3,142 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
-  <!-- 비밀번호 찾기 순서
+<mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+	<!-- 비밀번호 찾기 순서 1. 사용자가 입력한 id의 pw변경(랜덤문자열) update 2. 2번에서 입력한 pw 3. pw를 
+		메일로 전송 -->
+	<update id="updateMemberPw"
+		parameterType="com.gdu.cashbook.vo.Member">
+		UPDATE member
+		SET member_pw =#{memberPw}
+		WHERE member_id = #{memberId}
+		AND member_email = #{memberEmail}
 
-  1. 사용자가 입력한 id의 pw변경(랜덤문자열) update
-  2. 2번에서 입력한 pw
-  3. pw를 메일로 전송
-   -->
-   <update id="updateMemberPw"
-   		parameterType="com.gdu.cashbook.vo.Member">
-   		UPDATE member
-   		SET member_pw =#{memberPw}
-   		WHERE member_id = #{memberId}
-   		AND member_email = #{memberEmail}
-   		
-   	</update>
-   
-   <!--  -->
-  <select id="selectMemberByIdAndEmail"
-  		parameterType="com.gdu.cashbook.vo.Member"
-  		resultType="com.gdu.cashbook.vo.Member">
-  		SELECT *
-  		FROM member
-  		WHERE member_id = #{memberId}
-  		AND member_email = #{memberEmail}
-  
-  </select>
-  <!--  -->
-  <select id="selectMemberIdByMember"
-  		parameterType="com.gdu.cashbook.vo.Member"
-  		resultType="String">
-  		SELECT
-  			CONCAT(SUBSTRING(member_id,1,3),'****')
-  		FROM member
-  		WHERE member_name = #{memberName}
-  		AND member_phone = #{memberPhone}
-  		AND member_email = #{memberEmail}		
-  </select>
-  
-  
-  
-	<select	id="selectMemberOne"
-  			parameterType="com.gdu.cashbook.vo.LoginMember"
-  			resultType="com.gdu.cashbook.vo.Member">
-  			SELECT
-  				member_id as memberId,
-  				member_name as memberName,
-  				member_addr as memberAddr,
-  				member_phone as memberPhone,
-  				member_email as memberEmail,
-  				member_pic as memberPic
-  			FROM member
-  			WHERE member_id=#{memberId}
+	</update>
+	<update id="updateLoginMemberPw"
+		parameterType="com.gdu.cashbook.vo.Member">
 
-  </select>
-  <insert id="insertDeletedMember" parameterType="String">
-  	INSERT INTO deletedmember(
+
+	</update>
+	<!-- -->
+	<select id="selectMemberByIdAndEmail"
+		parameterType="com.gdu.cashbook.vo.Member"
+		resultType="com.gdu.cashbook.vo.Member">
+		SELECT *
+		FROM member
+		WHERE member_id = #{memberId}
+		AND member_email = #{memberEmail}
+
+	</select>
+	<!-- -->
+	<select id="selectMemberIdByMember"
+		parameterType="com.gdu.cashbook.vo.Member" resultType="String">
+		SELECT
+		CONCAT(SUBSTRING(member_id,1,3),'****')
+		FROM member
+		WHERE member_name = #{memberName}
+		AND member_phone = #{memberPhone}
+		AND member_email = #{memberEmail}
+	</select>
+
+
+
+	<select id="selectMemberOne"
+		parameterType="com.gdu.cashbook.vo.LoginMember"
+		resultType="com.gdu.cashbook.vo.Member">
+		SELECT
+		member_id as memberId,
+		member_name as memberName,
+		member_addr as memberAddr,
+		member_phone as memberPhone,
+		member_email as memberEmail,
+		member_pic as memberPic
+		FROM member
+		WHERE member_id=#{memberId}
+
+	</select>
+	<insert id="insertDeletedMember" parameterType="String">
+		INSERT INTO deletedmember(
 		member_id
-    )	VALUES(
-    	#{memberId}
-    )
-  </insert>
-  
-  <select id="selectMemberId" parameterType="String" resultType="String">
-  	SELECT
-  		member_id
-  	FROM(
-  		SELECT member_id from member
-  		UNION
-  		SELECT member_id from deletedmember
+		) VALUES(
+		#{memberId}
+		)
+	</insert>
+
+	<select id="selectMemberId" parameterType="String"
+		resultType="String">
+		SELECT
+		member_id
+		FROM(
+		SELECT member_id from member
+		UNION
+		SELECT member_id from deletedmember
 		)t
-  	WHERE member_id=#{memberIdCheck}
-  	
-  </select>
-  <select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember">
-  	SELECT
-  		member_id as memberId,
-  		member_pw as memberPw
-  	FROM member
-  	WHERE member_id=#{memberId}
-  	  AND member_pw=PASSWORD(#{memberPw})
-  </select>
-   <select id="selectmemberList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.Member">
-  	SELECT 
-  		member_id as memberId,
-  		member_pw as memberPw,
-  		member_name as memberName,
-  		member_addr as memberAddr,
-  		member_phone as memberPhone,
-  		member_email as memberEmail
-  	FROM member
-  	ORDER BY member_id
-  	LIMIT #{beginRow}, #{rowPerPage}
-  </select>
-  <delete id="deleteMember" parameterType="String">
-  DELETE
-  FROM member
-  WHERE member_id=#{memberId}
-  </delete>
-  
-  <update id="updateMember" parameterType="com.gdu.cashbook.vo.Member">
-  	Update 
-  		member
-  	SET
-  		member_pw=PASSWORD(#{memberPw}),
-  		member_name=#{memberName},
-  		member_addr=#{memberAddr},
-  		member_phone=#{memberPhone},
-  		member_email=#{memberEmail}
-  	WHERE
-  		member_id=#{memberId}
-  	
-  </update>
-   <insert id="insertMember" parameterType="com.gdu.cashbook.vo.Member">
-	INSERT INTO member(
+		WHERE member_id=#{memberIdCheck}
+
+	</select>
+	<select id="selectLoginMember"
+		parameterType="com.gdu.cashbook.vo.LoginMember"
+		resultType="com.gdu.cashbook.vo.LoginMember">
+		SELECT
+		member_id as memberId,
+		member_pw as memberPw
+		FROM member
+		WHERE member_id=#{memberId}
+		AND (member_pw=PASSWORD(#{memberPw})
+		OR member_pw=#{memberPw})
+
+	</select>
+	<select id="selectmemberList" parameterType="java.util.Map"
+		resultType="com.gdu.cashbook.vo.Member">
+		SELECT
+		member_id as memberId,
+		member_pw as memberPw,
+		member_name as memberName,
+		member_addr as memberAddr,
+		member_phone as memberPhone,
+		member_email as memberEmail
+		FROM member
+		ORDER BY member_id
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	<delete id="deleteMember" parameterType="String">
+		DELETE
+		FROM member
+		WHERE member_id=#{memberId}
+	</delete>
+
+	<update id="updateMember"
+		parameterType="com.gdu.cashbook.vo.Member">
+		Update
+		member
+		SET
+		member_pw=PASSWORD(#{memberPw}),
+		member_name=#{memberName},
+		member_addr=#{memberAddr},
+		member_phone=#{memberPhone},
+		member_email=#{memberEmail}
+		WHERE
+		member_id=#{memberId}
+
+	</update>
+	<insert id="insertMember"
+		parameterType="com.gdu.cashbook.vo.Member">
+		INSERT INTO member(
 		member_id,
-    	member_pw,
-    	member_name,
-    	member_addr,
-    	member_phone,
-    	member_email
-    	
-    )	VALUES(
-    		#{memberId},
-    		PASSWORD(#{memberPw}),
-    		#{memberName},
-    		#{memberAddr},
-    		#{memberPhone},
-    		#{memberEmail}
-    )
-    
-  </insert>
-  </mapper>
+		member_pw,
+		member_name,
+		member_addr,
+		member_phone,
+		member_email
+
+		) VALUES(
+		#{memberId},
+		PASSWORD(#{memberPw}),
+		#{memberName},
+		#{memberAddr},
+		#{memberPhone},
+		#{memberEmail}
+		)
+
+	</insert>
+</mapper>

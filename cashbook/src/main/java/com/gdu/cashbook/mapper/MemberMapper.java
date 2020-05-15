@@ -19,6 +19,7 @@ public interface MemberMapper {
 	public int updateMember(Member member);
 	
 	public String selectMemberIdByMember(Member member);
+	
 	public Member selectMemberByIdAndEmail(Member member);
 	public int updateMemberPw(Member member);
 	
