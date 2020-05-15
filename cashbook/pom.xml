@@ -20,8 +20,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 		
-				<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>jstl</artifactId>

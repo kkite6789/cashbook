@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+		//submit코드를 독립적으로 실행할 수 있게 설정하는게 좋다.
+	});
+});
+</script>
+</head>
+<body>
+<div class="container">
+	<h1>아이디 찾기</h1>
+	<form id="myform" method="post" th:action="@{/findMemberId}"></form>
+	<div>
+		member_name:
+		<input type="text" name="memberName">
+	</div>
+	<div>
+		member_phone:
+		<input type="text" name="memberPhone">
+	</div>
+	<div>
+		member_email:
+		<input type="text" name="memberEmail">
+	</div>
+	<button type="button" id="btn">찾기</button>
+</div>
+</body>
+</html>

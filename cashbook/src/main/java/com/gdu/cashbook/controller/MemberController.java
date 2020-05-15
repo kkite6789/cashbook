@@ -1,6 +1,7 @@
 package com.gdu.cashbook.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdu.cashbook.mapper.MemberMapper;
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
@@ -19,6 +21,46 @@ import com.gdu.cashbook.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
+
+	
+	@GetMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session) {
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		return "findMemberPw";
+	}
+	
+	@PostMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session, Model model, Member member) {
+		int row = memberService.getMemberPw(member);
+		String msg="아이디와 메일을 확인하세요.";
+		if(row==1) {
+			msg="비밀번호를 이메일로 전송하였습니다.";
+		}
+		model.addAttribute("msg", msg);
+		return "memberPwView";
+	}
+	
+	@GetMapping("/findMemberId")
+	public String findMemberId(HttpSession session) {
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		return "findMemberId";
+	}
+	@PostMapping("/findMemberId")
+	public String findMemberId(HttpSession session, Model model, Member member) {
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		System.out.println(member.toString()+"<--member");
+		String memberIdPart = memberService.getMemberIdByMember(member);
+		System.out.println(memberIdPart+"<--memberIdPart");
+		model.addAttribute("memberIdPart", memberIdPart);
+		return "memberIdView";
+	}
 	@GetMapping("/replaceMember")
 	public String replaceMember(Model model,HttpSession session) {
 		if(session.getAttribute("loginMember") == null) {

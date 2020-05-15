@@ -3,6 +3,7 @@ package com.gdu.cashbook.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,26 @@ public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
 
+
+	
+	public int getMemberPw(Member member) {
+		UUID uuid=UUID.randomUUID();
+		String memberPw = uuid.toString().substring(0, 8);
+		member.setMemberPw(memberPw);
+		int row = memberMapper.updateMemberPw(member);
+		if(row == 1) {
+			
+			System.out.println(memberPw+"<--update memberPw");
+			//메일로 update성공한 랜덤pw 전송
+			//메일객체 new JavaMailSender();
+		}
+		return row;
+	}
+	
+	
+	public String getMemberIdByMember(Member member) {
+		return memberMapper.selectMemberIdByMember(member);
+	}
 	public Member getMemberOne(LoginMember loginMember) {
 		return memberMapper.selectMemberOne(loginMember);
 	}

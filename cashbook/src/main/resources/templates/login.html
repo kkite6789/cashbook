@@ -56,7 +56,12 @@
 						<div th:text="${msgLogin}"></div>
 						
 						<div>
-							<a href="/forgotId">아이디와 비밀번호가 기억나지 않아요.</a>
+							<a th:href="@{/findMemberId}">아이디가 기억나지 않아요.</a>
+							<!-- 이름,이메일,전화번호 : 아이디  -->
+						</div>
+						<div>
+							<a th:href="@{/findMemberPw}">비밀번호가 기억나지 않아요.</a>
+							<!-- 아이디,이메일 : 이메일로 관리자가 변경한 비밀번호를 보냄 -->
 						</div>
 						<br>
 						<span>
