@@ -11,11 +11,30 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 600px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        /* text-decoration: none; */
+    }
+    
+    #section {
+        margin-left: 300px;
+        background: white;
+    }
+
+</style>
+
 </head>
 <body>
 	<div class="container">
 		<h1>memberInfo</h1>
-		<div th:include="/include/menu::sidemenu"></div>
+		<div id="aside" th:include="/include/menu::sidemenu"></div>
+		<div id="section">
 		<div class="text-right">
 			<a class="btn btn-secondary" th:href="@{/removeMember}">회원탈퇴</a>
 		</div>
@@ -51,6 +70,7 @@
 		<div class="text-right">
 			<a class="btn btn-primary" th:href="@{/replaceMember}">회원수정</a>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

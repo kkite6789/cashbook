@@ -16,12 +16,12 @@ import com.gdu.cashbook.mapper.MemberMapper;
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.MemberForm;
 
 @Controller
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	
 
 	
 	@GetMapping("/findMemberPw")
@@ -70,19 +70,30 @@ public class MemberController {
 		}
 		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
 		String memberId=member.getMemberId();
+		String memberPic=member.getMemberPic();
 		System.out.println("memberId -> "+ memberId);
+		System.out.println("memberPic->" + memberPic);
 		model.addAttribute("memberId", memberId);
+		model.addAttribute("memberPic", memberPic);
 		return "replaceMember";
 	}
 	@PostMapping("/replaceMember")
-	public String replaceMember(Member member,HttpSession session) {
+	public String replaceMember(MemberForm memberForm,HttpSession session) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
-		System.out.println(member.toString());
-		memberService.replaceMember(member);
 		
-		return "redirect:/home";
+		System.out.println(memberForm.toString() +"<-- memberForm");
+		if(memberForm.getMemberPic()!=null) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/gif") ) {
+				System.out.println("이미지 파일이 아닙니다.");
+				return "redirect:/addMember?msg=이미지파일만 업로드 가능";
+			}
+		}
+		memberService.replaceMember(memberForm);
+		return "redirect:/index";
+		
+
 		
 	}
 	
@@ -92,14 +103,45 @@ public class MemberController {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		
+		
+		
+		/*
 		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
 		String memberId=member.getMemberId();
 		String deletedMemberId = memberId;
 		System.out.println(memberId+"<--memberId");
 		System.out.println(deletedMemberId+"<--deletedMemberId");
+		LoginMember loginMember= new LoginMember();
+		loginMember = member;
 		session.invalidate();
-		memberService.removeMember(memberId);
-		memberService.addDeletedMember(deletedMemberId);
+		memberService.removeMember(member);
+		 */
+		return "removeMember";
+	}
+	
+	@PostMapping("/removeMember")
+	public String removeMember(HttpSession session, Model model, @RequestParam("memberPw") String memberPw) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/index";
+		}
+		LoginMember loginMember = (LoginMember)session.getAttribute("loginMember"); 
+		loginMember.setMemberPw(memberPw); // removeMember.html에서 입력한 비밀번호로 변경
+		System.out.println(loginMember.getMemberId());
+		System.out.println(loginMember.getMemberPw());
+
+		int result = memberService.removeMember(loginMember);
+		System.out.println(result);
+		if(result!=1) {
+			System.out.println("비밀번호 틀림");
+			//model.addAttribute("msg", "비밀번호를 다시 확인하세요."); 
+			return "removeMember";
+		} else {
+			System.out.println("비밀번호 일치");
+		}
+		
+		memberService.removeMember(loginMember); // 삭제 메서드 호출
+		session.invalidate();
 		return "redirect:/home";
 	}
 	
@@ -189,12 +231,19 @@ public class MemberController {
 		return "addMember";
 	}
 	@PostMapping("/addMember") 
-	public String addMember(Member member,HttpSession session) {//commender
+	public String addMember(MemberForm memberForm,HttpSession session) {//commender
 		if(session.getAttribute("loginMember") != null){
 			return "redirect:/";
 		}
-		memberService.AddMember(member);
-		System.out.println(member.toString());
+	//	memberService.AddMember(member);
+		System.out.println(memberForm.toString() +"<-- memberForm");
+		if(memberForm.getMemberPic()!=null) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/gif") ) {
+				System.out.println("이미지 파일이 아닙니다.");
+				return "redirect:/addMember?msg=이미지파일만 업로드 가능";
+			}
+		}
+		memberService.addMember(memberForm);
 		return "redirect:/index";
 	}
 	@GetMapping("/getMember")

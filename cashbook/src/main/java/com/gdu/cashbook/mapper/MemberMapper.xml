@@ -19,6 +19,22 @@
 
 
 	</update>
+	
+	<select id="selectMemberPic" parameterType="String" resultType="String">
+		SELECT member_pic
+		FROM member
+		WHERE member_id=#{memebrId}
+	</select>
+	
+	<!-- id와 pw가 맞는 카운트 1일때면 true가 되게 -->
+	<select id="selectConfirmMemberCount" resultType="int" parameterType="com.gdu.cashbook.vo.Member">
+		SELECT
+			COUNT(*)
+		FROM member
+		WHERE member_id = #{memberId}
+		AND member_pw = PASSWORD(#{memberPw})
+	</select>
+	
 	<!-- -->
 	<select id="selectMemberByIdAndEmail"
 		parameterType="com.gdu.cashbook.vo.Member"
@@ -56,13 +72,7 @@
 		WHERE member_id=#{memberId}
 
 	</select>
-	<insert id="insertDeletedMember" parameterType="String">
-		INSERT INTO deletedmember(
-		member_id
-		) VALUES(
-		#{memberId}
-		)
-	</insert>
+	
 
 	<select id="selectMemberId" parameterType="String"
 		resultType="String">
@@ -101,10 +111,11 @@
 		ORDER BY member_id
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
-	<delete id="deleteMember" parameterType="String">
+	<delete id="deleteMember" parameterType="com.gdu.cashbook.vo.LoginMember">
 		DELETE
 		FROM member
 		WHERE member_id=#{memberId}
+		AND member_pw = PASSWORD(#{memberPw})
 	</delete>
 
 	<update id="updateMember"
@@ -116,7 +127,8 @@
 		member_name=#{memberName},
 		member_addr=#{memberAddr},
 		member_phone=#{memberPhone},
-		member_email=#{memberEmail}
+		member_email=#{memberEmail},
+		member_pic=#{memberPic}
 		WHERE
 		member_id=#{memberId}
 
@@ -129,7 +141,8 @@
 		member_name,
 		member_addr,
 		member_phone,
-		member_email
+		member_email,
+		member_pic
 
 		) VALUES(
 		#{memberId},
@@ -137,7 +150,8 @@
 		#{memberName},
 		#{memberAddr},
 		#{memberPhone},
-		#{memberEmail}
+		#{memberEmail},
+		#{memberPic}
 		)
 
 	</insert>

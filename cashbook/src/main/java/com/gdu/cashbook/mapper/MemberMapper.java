@@ -15,13 +15,14 @@ public interface MemberMapper {
 	public LoginMember selectLoginMember(LoginMember loginMember);
 	public List<Member> selectMemberList(Map<String,Object> map);
 	public int insertMember(Member member);
-	public int deleteMember(String memberId);
+	public int deleteMember(LoginMember loginMember);
 	public int updateMember(Member member);
 	
+	public String selectMemberPic(String memberId);
 	public String selectMemberIdByMember(Member member);
 	
 	public Member selectMemberByIdAndEmail(Member member);
 	public int updateMemberPw(Member member);
+	public int selectConfirmMemberCount(Member member);
 	
-	public int insertDeletedMember(String deletedMemberId);
 }
