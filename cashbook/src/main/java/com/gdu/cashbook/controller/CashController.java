@@ -1,16 +1,22 @@
 package com.gdu.cashbook.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook.service.CashService;
 import com.gdu.cashbook.vo.Cash;
@@ -22,40 +28,88 @@ public class CashController {
 	@Autowired
 	public CashService cashService;
 	
-	@GetMapping("/getCashListByDate")
-	public String getCashListByDate(HttpSession session,Model model) {
+	@GetMapping("/addCash")
+	public String addCash(HttpSession session) {
+		System.out.println("add 컨트롤러 시작");
+		
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
+		}
+		
+		return "addCash";
+	}
+	@PostMapping("/addCash")
+	public String addCash(HttpSession session,Cash cash) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		String memberId = ((LoginMember)session.getAttribute("loginMember")).getMemberId();
+		System.out.println(memberId+"<--memberId");
+		cash.setMemberId(memberId);
+		System.out.println(cash.toString());
+		cashService.addCash(cash);
+		
+		return "redirect:/getCashListByDate";
+	}
+	
+	
+	@GetMapping("/getCashListByDate")
+	public String getCashListByDate(HttpSession session,Model model,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+		
+		System.out.println(day+"<-- day");
+
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		if(day==null) {
+			day = LocalDate.now();
 		}
 		//로그인 아이디
 		String loginMemberId = ((LoginMember)session.getAttribute("loginMember")).getMemberId();
 		//Calendar를 이용한 오늘 날짜
 		//오늘 날짜를 구해서 원하는 문자열 형태로 변경
-		Date today = new Date();
+		//Date day2 = new Date();
 		//Calendar today = Calendar.getInstance(); //"yyyy-MM-dd" 형식
+		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdf2=new SimpleDateFormat("E");
-		SimpleDateFormat sdf3=new SimpleDateFormat("yyyy-MM-dd-E");
-		System.out.println(today+"<--today");
-		String strToday=sdf.format(today);
-		String strToday2=sdf3.format(today);
-		String day1=strToday2+"요일";
-		System.out.println(strToday+"<--strToday");
+		//SimpleDateFormat sdf2=new SimpleDateFormat("E");
+		//SimpleDateFormat sdf3=new SimpleDateFormat("yyyy-MM-dd-E");
+		
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        //LocalDate date = LocalDate.parse(string, formatter);
+		
+		
+		
+		System.out.println(day+"<--day");
+		
+		//String strToday=sdf.format(day);
+		//System.out.println(strToday+"<--strToday");
+		
+		/*
+		String strToday2=sdf2.format(day);
+		String day1=strToday+" "+strToday2+"요일";
+		
 		System.out.println(strToday2+"<--strToday2");
 		System.out.println(day1+"<--day");
+		*/
 		
 		Cash cash = new Cash(); // +id, +date("yyyy-MM-dd")
 		cash.setMemberId(loginMemberId);
-		cash.setCashDate(strToday);
+		cash.setCashDate(day.toString());
 		
 		System.out.println(loginMemberId+"<-- 현재 login 아이디");
-		System.out.println(strToday+"<--strToday ");
-		
-		List<Cash> cashlist = cashService.getCashListByDate(cash);
+		//System.out.println(strToday+"<--strToday ");
+	
+		Map<String, Object> map = cashService.getCashListByDate(cash);
 		System.out.println(cash.toString()+"<-cash.toString()");
-		model.addAttribute("cashList", cashlist);	
-		model.addAttribute("day",day1);
 		
+		model.addAttribute("cashKindSum", map.get("cashKindSum"));
+		model.addAttribute("cashList", map.get("cashList"));
+		model.addAttribute("day", day);
+		//model.addAttribute("day", strToday);
+		//model.addAttribute("day",day1);
+		/*
 		if(cashlist.size()==0) {
 			System.out.println("cashlist가 비었습니다.");
 		} else {
@@ -65,8 +119,9 @@ public class CashController {
 		for(Cash c:cashlist) {
 			System.out.println(c);
 		}
-		
+		*/
 		return "getCashListByDate";
+		
 	}
 	
 	

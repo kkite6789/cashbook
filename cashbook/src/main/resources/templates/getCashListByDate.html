@@ -23,6 +23,17 @@
         margin-left: 200px;
         background: white;
     }
+    .gobtn{
+    font-size: 18px; 
+    color: rgb(131, 131, 131); 
+    text-align: center; line-height: 2.2em; 
+    border-radius:25px;
+    background-color: rgb(230, 230, 230);
+    width:100px;
+    height:36px;
+    vertical-align: middle;
+    
+    }
 </style>
 </head>
 <body>
@@ -34,8 +45,17 @@
 			<h1 class="text-center">가계부</h1>
 			<br>
 			<h2 class="text-center" th:text="${day}"></h2>
+			<div>
+				<span>
+					<a class="btn gobtn" th:href="@{getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
+				</span>
+				<span style="float:right">
+					<a class="btn gobtn" th:href="@{getCashListByDate(day=${day.plusDays(1)})}" >다음</a>
+				</span>
+			</div>
+			<!--  <div th:text="${day}"></div> -->
 			<br>
-			<table class="table">
+			<table class="table table-bordered" style="text-align:center">
 				<thead class="thead-light">
 					<tr>
 						<th>&nbsp;</th>
@@ -53,21 +73,27 @@
 						<td th:text="${index.index}+1"></td>
 						<td th:text="${cash.categoryName}"></td>
 						
-						<td th:if="${cash.cashKind}=='수입'" th:text="${'+' + cash.cashPrice}"></td>
-						<td th:unless="${cash.cashKind}=='수입'"></td>
+						<td style="color:blue" th:if="${cash.cashKind}=='수입'" th:text="${'+' + cash.cashPrice}"></td>
+						<td  th:unless="${cash.cashKind}=='수입'"></td>
 						
-						<td th:if="${cash.cashKind}=='지출'" th:text="${'-' + cash.cashPlace}"></td>
+						<td style="color:red" th:if="${cash.cashKind}=='지출'" th:text="${'-' + cash.cashPrice}"></td>
 						<td th:unless="${cash.cashKind}=='지출'"></td>
 						
 						<td th:text="${cash.cashPlace}"></td>
 						<td th:text="${cash.cashMemo}"></td>
-						<td><a href="">삭제</a></td>
-						<td><a href="">수정</a></td>
+						<td><a th:href="@{removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
+						<!-- th 방식 -->
+						<td><a th:href="@{replaceCash(cashNo=${cash.cashNo})}">수정</a></td>
 					</tr>
 				</tbody>
 				
 			</table>
-			
+			<div>
+			<div th:if="${cashKindSum}>0" class="text-right" style="font-size:30px">합계 : <span style="color:blue; font-size: 30px;" th:text="${cashKindSum}"></span></div>
+			<div th:if="${cashKindSum}==0" class="text-right" style="font-size:30px">합계 : <span style="color:black; font-size: 30px;" th:text="${cashKindSum}"></span></div>
+			<div th:if="${cashKindSum}<0" class="text-right" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${cashKindSum}"></span></div>
+			</div>
+			<a th:href="@{addCash}">입력</a>
 		</div> 
 </div>
 </body>

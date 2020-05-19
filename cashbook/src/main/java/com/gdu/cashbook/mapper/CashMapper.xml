@@ -18,4 +18,36 @@
 	ORDER BY cash_no ASC
 </select>
 
+<select id="selectCashKindSum" parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
+SELECT
+	IFNULL((SELECT SUM(cash_price)
+	FROM cash
+	WHERE cash_kind='수입' AND member_id=#{memberId} AND cash_date=#{cashDate}),0)
+	-
+	IFNULL((SELECT SUM(cash_price)
+	FROM cash
+	WHERE cash_kind='지출' AND member_id=#{memberId} AND cash_date=#{cashDate}),0)
+FROM dual
+</select>
+
+<insert id="insertCash" parameterType="com.gdu.cashbook.vo.Cash" >
+<!-- 장소와 메모는 null가능 (db에서 하는게 나을것) -->
+	INSERT INTO cash(
+		cash_kind,
+		category_name,
+		cash_price,
+		cash_place,
+		cash_memo,
+		member_id,
+		cash_date
+	) VALUES(
+	#{cashKind},
+	#{categoryName},
+	#{cashPrice},
+	#{cashPlace},
+	#{cashMemo},
+	#{memberId},
+	curdate()
+	)
+</insert>
 </mapper>

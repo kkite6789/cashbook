@@ -1,5 +1,7 @@
 package com.gdu.cashbook.vo;
 
+import java.time.LocalDate;
+
 public class Cash {
 	private int cashNo;
 	private String memberId;
@@ -10,6 +12,14 @@ public class Cash {
 	private String cashPlace;
 	private String cashMemo;
 	
+	
+	
+	public String getCashDate() {
+		return cashDate;
+	}
+	public void setCashDate(String cashDate) {
+		this.cashDate = cashDate;
+	}
 	public int getCashNo() {
 		return cashNo;
 	}
@@ -21,12 +31,6 @@ public class Cash {
 	}
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
-	}
-	public String getCashDate() {
-		return cashDate;
-	}
-	public void setCashDate(String cashDate) {
-		this.cashDate = cashDate;
 	}
 	public String getCashKind() {
 		return cashKind;

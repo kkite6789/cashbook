@@ -10,5 +10,7 @@ public interface CashMapper {
 	
 	//해당 사용자의 해당날짜 cash 목록
 	public List<Cash> selectCashListByDate(Cash cash);
-
+	public int selectCashKindSum(Cash cash);
+	public int insertCash(Cash cash);
+	
 }

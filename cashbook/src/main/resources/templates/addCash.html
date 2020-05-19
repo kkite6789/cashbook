@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 800px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        margin-left: -50px;
+        /* text-decoration: none; */
+    }
+    
+    #section {
+        margin-left: 200px;
+        background: white;
+    }
+</style>
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
+
+</script>
+</head>
+<body>
+<div class="container">
+	<div id="aside" th:include="/include/menu::sidemenu"></div>
+		<div id="section">
+		<br>
+			<h1 class="text-center">add Cash</h1>
+			<form method="post" action="/addCash" id="myform">
+				<table border="1">
+					<tr>
+						<td>카테고리</td>
+						<td>
+							<select name="categoryName" id="categoryName">
+								<option value="쇼핑">쇼핑</option>
+								<option value="오락">오락</option>
+								<option value="월급">월급</option>
+							</select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>수입/지출</td>
+						<td>
+							<select name="cashKind" id="cashKind">
+								<option value="수입">수입</option>
+								<option value="지출">지출</option>
+							</select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>금액</td>
+						<td><input type="text" name="cashPrice" id="cashPrice"></td>
+					</tr>
+					
+					<tr>
+						<td>장소</td>
+						<td><input type="text" name="cashPlace" id="cashPlace"></td>
+					</tr>
+		
+					<tr>
+						<td>메모</td>
+						<td><input type="text" name="cashMemo" id="cashMemo"></td>
+					</tr>
+					
+				</table>
+			<button class="btn" type="button" id="btn">입력</button>
+			</form>
+			
+		</div> 
+</div>
+</body>
+</html>
