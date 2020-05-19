@@ -14,16 +14,17 @@
 <style>
  #aside {
         width: 200px;
-        height: 600px;
+        height: 800px;
         position: fixed;
         background:#B5B2FF;
         overflow: hidden;
         float: left;
+        margin-left: -50px;
         /* text-decoration: none; */
     }
     
     #section {
-        margin-left: 300px;
+        margin-left: 200px;
         background: white;
     }
 
@@ -32,13 +33,19 @@
 </head>
 <body>
 	<div class="container">
-		<h1>memberInfo</h1>
+		
 		<div id="aside" th:include="/include/menu::sidemenu"></div>
 		<div id="section">
+		<br>
+		<h1 class="text-center">memberInfo</h1>
 		<div class="text-right">
+		<br>
 			<a class="btn btn-secondary" th:href="@{/removeMember}">회원탈퇴</a>
+			<br>
 		</div>
+		
 		<table class="table">
+		<br>
 			<tr>
 				<td>사진</td>
 				<td>
@@ -67,6 +74,7 @@
 			</tr>
 
 		</table>
+		
 		<div class="text-right">
 			<a class="btn btn-primary" th:href="@{/replaceMember}">회원수정</a>
 		</div>

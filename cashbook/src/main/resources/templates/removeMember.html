@@ -7,6 +7,25 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 800px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        margin-left: -50px;
+        /* text-decoration: none; */
+    }
+    
+    #section {
+        margin-left: 200px;
+        background: white;
+    }
+
+
+</style>
 <script>
 	$(document).ready(function(){
 		$('#deleteBtn').click(function(){
@@ -18,14 +37,27 @@
 </head>
 <body>
 <div class="container">
-	<h1>회원탈퇴</h1>
-	<div th:include="/include/menu::sidemenu"></div>
-	<form id="deleteForm" action="/removeMember" method="post">
-		<div>
-			비밀번호 입력 : <input type="password" name="memberPw">
-		</div>
-	</form>
-	<div><button id="deleteBtn" class="btn btn-danger">삭제</button></div>
+<div id="aside" th:include="/include/menu::sidemenu"></div>
+	<div id="section">
+	<div class="col-sm-7">
+	<br>
+	<br>
+		<h1>회원탈퇴</h1>
+		
+		<form id="deleteForm" action="/removeMember" method="post">
+		<br>
+		<br>
+			<div>
+				비밀번호 입력 : <input type="password" name="memberPw">
+			</div>
+		</form>
+		<br>
+		<br>
+		<div style="text-align:right"><button id="deleteBtn" class="btn btn-danger">삭제</button></div>
+	</div>
+	
+			<div class="col-sm-5"></div>
+			</div>
 </div>
 </body>
 </html>
