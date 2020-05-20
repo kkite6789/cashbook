@@ -28,6 +28,54 @@ public class CashController {
 	@Autowired
 	public CashService cashService;
 	
+	@GetMapping("/getCashListByMonth")
+	public String getCashListByMonth(HttpSession session,Model model,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		System.out.println(day+"<--day");
+		Calendar cDay = Calendar.getInstance();      //오늘날짜
+	      // System.out.println(cDay.get(Calendar.MONTH)+1);
+	      if(day == null) {
+	    	day=LocalDate.now();
+	    	
+	      } else {
+	    	  cDay.set(day.getYear(), day.getMonthValue()-1, day.getDayOfMonth()); // 오늘 날짜에서 day값과 동일한 값으로
+	    	//day-->cDay 
+	      }
+	      System.out.println(cDay+"<--cDay");
+	      /*
+	       * 0. 오늘 LocalDate 타입
+	       * 1. 오늘 calendar type
+	       * 2. 이번달의 마지막 일
+	       * 3. 이번달 1일의 요일
+	       */
+	      
+	      int month= cDay.get(Calendar.MONTH)+1;
+	      int lastDay= cDay.getMaximum(Calendar.DATE);
+	     // System.out.println(day.getYear()+","+day.getMonthValue()-1+","+day.getDayOfMonth());
+	     
+	      
+	      model.addAttribute("day", day);
+	      model.addAttribute("month", month);      //월을 넘겨줌
+	      model.addAttribute("lastDay", lastDay);   //마지막 일 --> date의 제일 큰 값을 넘겨줌
+	      
+	      
+	      
+	      Calendar firstDay = cDay;   //오늘 날짜를 하나더구해서
+	      firstDay.set(Calendar.DATE, 1);            // 일만 1로 변경
+	      //firstDay.get(Calendar.DAY_OF_WEEK);      // 1 -> 일요일, 2 -> 월요일,.....7 -> 토요일
+	      System.out.println(month+"<--month");
+	      System.out.println(firstDay.get(Calendar.DAY_OF_WEEK)+"<--firstDay.get(Calendar.DAY_OF_WEEK)");
+	      System.out.println(lastDay+"<--lastDay");
+	      model.addAttribute("firstDayofWeek", firstDay.get(Calendar.DAY_OF_WEEK));
+
+	      
+		
+		return "getCashListByMonth";
+	}
+	
+	
 	@GetMapping("/addCash")
 	public String addCash(HttpSession session) {
 		System.out.println("add 컨트롤러 시작");

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+#aside {
+	width: 200px;
+	height: 800px;
+	position: fixed;
+	background: #B5B2FF;
+	overflow: hidden;
+	float: left;
+	margin-left: -50px;
+	/* text-decoration: none; */
+}
+
+#section {
+	margin-left: 200px;
+	background: white;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div id="aside" th:include="/include/menu::sidemenu"></div>
+		<div id="section">
+			<br>
+			<h1 class="text-center">월 별 가계부 정리</h1>
+			<h3 th:text="${month+'월'}"></h3>
+			<div>
+				<span> <a class="btn gobtn"
+					th:href="@{getCashListByMonth(day=${day.plusMonths(-1)})}">이전</a>
+				</span> <span style="float: right"> <a class="btn gobtn"
+					th:href="@{getCashListByMonth(day=${day.plusMonths(1)})}">다음</a>
+				</span>
+			</div>
+			<div class="gd-left gd-clear gd-title">일</div>
+			<div class="gd-left gd-title">월</div>
+			<div class="gd-left gd-title">화</div>
+			<div class="gd-left gd-title">수</div>
+			<div class="gd-left gd-title">목</div>
+			<div class="gd-left gd-title">금</div>
+			<div class="gd-left gd-title">토</div>
+			<!--  5월달 lastDay == 31 -->
+			<div
+				th:each="i,index : ${#numbers.sequence(1, LastDay+(firstDayOfWeek-1))}"
+				th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} :''"
+				th:class="${index.index%7}==0 ? 'gd-clear gd-left': 'gd-left'">
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
