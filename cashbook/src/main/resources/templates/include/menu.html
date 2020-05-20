@@ -8,8 +8,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <style>
-#a{
-color: black;
+
+
+
+#pic{
+margin-left: 50px;
 }
 
 </style>
@@ -23,10 +26,15 @@ color: black;
 			
 			<br>
 			<br>
-			<!--    <img th:src="${'/upload/'+member.memberPic}" width="70" height="70">-->
+			<br>
+			<br>
+			<div>
+			      <span><img style="margin-left: 50px;" id="pic" class="rounded-circle" th:src="${'/upload/'+session.loginMember.memberId+'.PNG'}" width="90" height="90"></span>
+			     
+			</div>
 			<br>
 			
-			<br>
+			
 			<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<span th:text="${session.loginMember.memberId}"></span>님 반갑습니다.
@@ -34,15 +42,17 @@ color: black;
 		</div>
 		<ul>
 		<br>
-			<li><a style="color: black;" id="a" th:href="@{/home}">홈</a></li>
+			<li><a class="menuLink" th:href="@{/home}">홈</a></li>
 			<br>
-			<li><a style="color: black;"  id="a" th:href="@{/memberInfo}">회원정보</a></li>
+			<li><a class="menuLink" th:href="@{/memberInfo}">회원정보</a></li>
 			<br>
-			<li><a style="color: black;"  id="a" th:href="@{/getCashListByDate}">가계부관리</a></li>
+			<li><a class="menuLink" th:href="@{/getCashListByDate}">일일 가계부</a></li>
 			<br>
-			<li><a style="color: black;"  id="a" th:href="@{/boardList}">게시판</a></li>
+			<li><a class="menuLink" th:href="@{/getCashListByMonth}">월별 가계부</a></li>
 			<br>
-			<li><a style="color: black;"  id="a" th:href="@{/logout}">로그아웃</a></li>
+			<li><a class="menuLink" th:href="@{/boardList}">게시판</a></li>
+			<br>
+			<li><a class="menuLink" th:href="@{/logout}">로그아웃</a></li>
 		</ul>
 	
 	</div>

@@ -7,7 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.time.ZoneId;
 
+import javax.xml.crypto.Data;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook.service.CashService;
 import com.gdu.cashbook.vo.Cash;
+import com.gdu.cashbook.vo.DayAndPrice;
 import com.gdu.cashbook.vo.LoginMember;
 
 @Controller
@@ -50,12 +53,31 @@ public class CashController {
 	       * 2. 이번달의 마지막 일
 	       * 3. 이번달 1일의 요일
 	       */
+	       
+	      System.out.println(day+"<--day");
+	      String cashDate=(day.toString());
+	      //일별 수입, 지출 총액
+	      String memberId=((LoginMember)session.getAttribute("loginMember")).getMemberId();
+	      int year=cDay.get(Calendar.YEAR);
+	      int month=cDay.get(Calendar.MONTH)+1;
+	      System.out.println(year+"<--year");
+	      System.out.println(month+"<--month");
 	      
-	      int month= cDay.get(Calendar.MONTH)+1;
-	      int lastDay= cDay.getMaximum(Calendar.DATE);
-	     // System.out.println(day.getYear()+","+day.getMonthValue()-1+","+day.getDayOfMonth());
-	     
+	      //Cash cash = new Cash();
+	      //cash.setCashDate(cashDate);
+	      //cash.setMemberId(memberId);
 	      
+	      List<DayAndPrice> dayAndPriceList = cashService.getCashAndPriceList(memberId, year, month);
+	      for(DayAndPrice dnp : dayAndPriceList) {
+	    	  System.out.println(dnp);
+	      }
+	      //int cashSum=cashService.selectCashKindSumMonth(cash);
+	      month= cDay.get(Calendar.MONTH)+1;
+	      int lastDay= cDay.getActualMaximum(Calendar.DATE);
+	      //System.out.println(cashSum+"<--cashSum");
+	      
+	     // model.addAttribute("cashSum", cashSum);
+	      model.addAttribute("dayAndPriceList", dayAndPriceList);
 	      model.addAttribute("day", day);
 	      model.addAttribute("month", month);      //월을 넘겨줌
 	      model.addAttribute("lastDay", lastDay);   //마지막 일 --> date의 제일 큰 값을 넘겨줌
@@ -68,9 +90,9 @@ public class CashController {
 	      System.out.println(month+"<--month");
 	      System.out.println(firstDay.get(Calendar.DAY_OF_WEEK)+"<--firstDay.get(Calendar.DAY_OF_WEEK)");
 	      System.out.println(lastDay+"<--lastDay");
-	      model.addAttribute("firstDayofWeek", firstDay.get(Calendar.DAY_OF_WEEK));
+	      model.addAttribute("firstDayOfWeek", firstDay.get(Calendar.DAY_OF_WEEK));
 
-	      
+	      System.out.println(firstDay.get(Calendar.YEAR)+","+(firstDay.get(Calendar.MONTH)+1)+","+firstDay.get(Calendar.DATE));
 		
 		return "getCashListByMonth";
 	}

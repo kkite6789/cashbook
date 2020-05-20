@@ -3,8 +3,10 @@ package com.gdu.cashbook.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -192,6 +194,7 @@ public class MemberController {
 		if(session.getAttribute("loginMember") != null){
 			return "redirect:/";
 		}
+		
 		//로그인 안됐을 때 
 		return "login";
 	}
