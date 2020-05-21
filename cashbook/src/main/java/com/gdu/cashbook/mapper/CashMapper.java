@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
+import com.gdu.cashbook.vo.LoginMember;
 @Mapper
 public interface CashMapper {
 	
@@ -16,5 +17,6 @@ public interface CashMapper {
 	public int selectCashKindSumMonth(Cash cash);
 	public int selectCashKindSum(Cash cash);
 	public int insertCash(Cash cash);
-	
+	public int deleteCash(Cash cash);
+	public int updateCash(Cash cash);
 }

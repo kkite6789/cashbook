@@ -14,11 +14,7 @@
 		AND member_email = #{memberEmail}
 
 	</update>
-	<update id="updateLoginMemberPw"
-		parameterType="com.gdu.cashbook.vo.Member">
 
-
-	</update>
 	
 	<select id="selectMemberPic" parameterType="String" resultType="String">
 		SELECT member_pic

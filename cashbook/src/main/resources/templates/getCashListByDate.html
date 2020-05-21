@@ -2,7 +2,7 @@
 <html xmlns:th="http//www.thymeLeaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>cashBook</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -81,7 +81,7 @@
 						
 						<td th:text="${cash.cashPlace}"></td>
 						<td th:text="${cash.cashMemo}"></td>
-						<td><a th:href="@{removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
+						<td><a th:href="@{removeCash(cashNo=${cash.cashNo},cashDate=${day})}">삭제</a></td>
 						<!-- th 방식 -->
 						<td><a th:href="@{replaceCash(cashNo=${cash.cashNo})}">수정</a></td>
 					</tr>
@@ -89,11 +89,11 @@
 				
 			</table>
 			<div>
-			<div th:if="${cashKindSum}>0" class="text-right" style="font-size:30px">합계 : <span style="color:blue; font-size: 30px;" th:text="${cashKindSum}"></span></div>
+			<div th:if="${cashKindSum}>0" class="text-right" style="font-size:30px">합계 : <span style="color:blue; font-size: 30px;" th:text="${#numbers.formatInteger(cashKindSum,0,'COMMA')}"></span></div>
 			<div th:if="${cashKindSum}==0" class="text-right" style="font-size:30px">합계 : <span style="color:black; font-size: 30px;" th:text="${cashKindSum}"></span></div>
-			<div th:if="${cashKindSum}<0" class="text-right" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${cashKindSum}"></span></div>
+			<div th:if="${cashKindSum}<0" class="text-right" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${#numbers.formatInteger(cashKindSum,0,'COMMA')}"></span></div>
 			</div>
-			<a th:href="@{addCash}">입력</a>
+			<a class="btn btn-primary" th:href="@{addCash}">입력</a>
 		</div> 
 </div>
 </body>

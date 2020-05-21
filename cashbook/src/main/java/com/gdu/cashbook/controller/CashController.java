@@ -66,17 +66,21 @@ public class CashController {
 	      //Cash cash = new Cash();
 	      //cash.setCashDate(cashDate);
 	      //cash.setMemberId(memberId);
-	      
+	      int totalPrice=0;
 	      List<DayAndPrice> dayAndPriceList = cashService.getCashAndPriceList(memberId, year, month);
 	      for(DayAndPrice dnp : dayAndPriceList) {
 	    	  System.out.println(dnp);
+	    	  System.out.println(dnp.getPrice()+"<--dnp.getPrice");
+	    	  totalPrice+=dnp.getPrice(); // 달의 총 입금/지출 금액
 	      }
+	      System.out.println(totalPrice+"<--totalPrice");
 	      //int cashSum=cashService.selectCashKindSumMonth(cash);
 	      month= cDay.get(Calendar.MONTH)+1;
 	      int lastDay= cDay.getActualMaximum(Calendar.DATE);
 	      //System.out.println(cashSum+"<--cashSum");
 	      
 	     // model.addAttribute("cashSum", cashSum);
+	      model.addAttribute("totalPrice", totalPrice);
 	      model.addAttribute("dayAndPriceList", dayAndPriceList);
 	      model.addAttribute("day", day);
 	      model.addAttribute("month", month);      //월을 넘겨줌
@@ -97,6 +101,21 @@ public class CashController {
 		return "getCashListByMonth";
 	}
 	
+	@GetMapping("/removeCash")
+	public String removeCash(HttpSession session,Cash cash,Model model) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		System.out.println(cash.toString());
+		System.out.println(cash.getCashNo()+"<--cashNo");
+		System.out.println(cash.getCashDate()+"<--cashDate");
+		//model.addAttribute("day", cash.getCashDate());
+		cashService.removeCash(cash);
+		return "redirect:/getCashListByDate?day=" + cash.getCashDate();
+	}
+	
+	
 	
 	@GetMapping("/addCash")
 	public String addCash(HttpSession session) {
@@ -108,8 +127,9 @@ public class CashController {
 		
 		return "addCash";
 	}
+	//날짜값 보내서 해당 날짜로  들어가게
 	@PostMapping("/addCash")
-	public String addCash(HttpSession session,Cash cash) {
+	public String addCash(HttpSession session,Cash cash,Model model) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
@@ -119,8 +139,8 @@ public class CashController {
 		cash.setMemberId(memberId);
 		System.out.println(cash.toString());
 		cashService.addCash(cash);
-		
-		return "redirect:/getCashListByDate";
+		model.addAttribute("day", cash.getCashDate());
+		return "/getCashListByDate";
 	}
 	
 	

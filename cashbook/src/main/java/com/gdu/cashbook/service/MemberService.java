@@ -169,11 +169,13 @@ public class MemberService {
 	public int replaceMember(MemberForm memberForm) {
 		
 		String oldMemberPic = memberMapper.selectMemberPic(memberForm.getMemberId());
+		System.out.println(oldMemberPic+"<--oldMemberPictue");
 		//1. 원래 있던 memberPic를 삭제한다.
 		File file = new File(path+oldMemberPic);//사진은 memberId와 이름이 동일하다.
 		System.out.println(file+"<---file");
 		if(file.exists()) {
 			file.delete();
+			System.out.println("사진삭제성공.");
 		}
 		
 		//2. 수정한 memberPic를 삽입

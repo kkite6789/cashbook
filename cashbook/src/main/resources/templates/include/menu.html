@@ -29,8 +29,8 @@ margin-left: 50px;
 			<br>
 			<br>
 			<div>
-			      <span><img style="margin-left: 50px;" id="pic" class="rounded-circle" th:src="${'/upload/'+session.loginMember.memberId+'.PNG'}" width="90" height="90"></span>
-			     
+			      <span th:if="${'/upload/'+session.loginMember.memberId+'.PNG'}!=null"><img style="margin-left: 50px;" id="pic" class="rounded-circle" th:src="${'/upload/'+session.memberPic}" width="90" height="90"></span>
+			   
 			</div>
 			<br>
 			
@@ -42,17 +42,17 @@ margin-left: 50px;
 		</div>
 		<ul>
 		<br>
-			<li><a class="menuLink" th:href="@{/home}">홈</a></li>
+			<li><a style="color:black" class="menuLink" th:href="@{/home}">홈</a></li>
 			<br>
-			<li><a class="menuLink" th:href="@{/memberInfo}">회원정보</a></li>
+			<li><a style="color:black" class="menuLink" th:href="@{/memberInfo}">회원정보</a></li>
 			<br>
-			<li><a class="menuLink" th:href="@{/getCashListByDate}">일일 가계부</a></li>
+			<li><a style="color:black" class="menuLink" th:href="@{/getCashListByDate}">일일 가계부</a></li>
 			<br>
-			<li><a class="menuLink" th:href="@{/getCashListByMonth}">월별 가계부</a></li>
+			<li><a style="color:black" class="menuLink" th:href="@{/getCashListByMonth}">월별 가계부</a></li>
 			<br>
-			<li><a class="menuLink" th:href="@{/boardList}">게시판</a></li>
+			<li><a style="color:black" class="menuLink" th:href="@{/boardList}">게시판</a></li>
 			<br>
-			<li><a class="menuLink" th:href="@{/logout}">로그아웃</a></li>
+			<li><a style="color:black" class="menuLink" th:href="@{/logout}">로그아웃</a></li>
 		</ul>
 	
 	</div>

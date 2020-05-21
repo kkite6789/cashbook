@@ -84,16 +84,17 @@ public class MemberController {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
-		
+		memberForm.toString();
 		System.out.println(memberForm.toString() +"<-- memberForm");
 		if(memberForm.getMemberPic()!=null) {
 			if(!memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/gif") ) {
 				System.out.println("이미지 파일이 아닙니다.");
-				return "redirect:/addMember?msg=이미지파일만 업로드 가능";
+				return "redirect:/replaceMember?msg=이미지파일만 업로드 가능(png,jpeg,gif)";
 			}
 		}
 		memberService.replaceMember(memberForm);
-		return "redirect:/index";
+		session.invalidate();
+		return "redirect:/home";
 		
 
 		
@@ -211,7 +212,11 @@ public class MemberController {
 			model.addAttribute("msgLogin", "ID와 PW를 확인하세요.");
 			return "login";
 		} else { //로그인 성공할때 그대로 진행
-			
+			Member member=new Member();
+			member=memberService.getMemberOne(returnLoginMember);
+			System.out.println(member.toString());
+			System.out.println(member.getMemberPic());
+			session.setAttribute("memberPic", member.getMemberPic());
 			session.setAttribute("loginMember", returnLoginMember);
 			return "redirect:/home";
 		}

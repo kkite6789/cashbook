@@ -14,6 +14,24 @@
 	AND member_id=#{memberId}
 	GROUP BY DAY(cash_date)
 </select>
+<update id="updateCash" parameterType="com.gdu.cashbook.vo.Cash">
+	update
+	cash
+	SET
+	cash_kind=#{cashKind},
+	cateogry_name#{categoryName},
+	cash_price=#{cashPrice},
+	cash_place=#{cashPlace},
+	cash_memo=#{cashMemo},
+	cash_date=curdate()
+	WHERE
+	 cash_no=#{cashNo}
+</update>
+<delete id="deleteCash" parameterType="com.gdu.cashbook.vo.Cash">
+	DELETE
+	FROM cash
+	WHERE cash_no=#{cashNo}
+</delete>
 
 <select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
 	SELECT

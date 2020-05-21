@@ -2,7 +2,7 @@
 <html xmlns:th="http//www.thymeLeaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>cashBook</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script
@@ -89,6 +89,12 @@ div.gd-left {
     text-align:center;
     margin-right: 20px;
     }
+    .totalPrice{
+    margin: 650px 650px 600px;
+    
+    text-align:center;
+    margin-right:30px;
+    }
 </style>
 </head>
 <body>
@@ -124,6 +130,11 @@ div.gd-left {
 				 	</span>
 				 </div>
 			</div>
+			 <div>
+					<div th:if="${totalPrice}>0" class="totalPrice" style="font-size:30px">합계 : <span style="color:blue; font-size: 30px;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></div>
+					<div th:if="${totalPrice}==0" class="totalPrice" style="font-size:30px">합계 : <span style="color:black; font-size: 30px;" th:text="${totalPrice}"></span></div>
+					<div th:if="${totalPrice}<0" class="totalPrice" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></div>
+				</div>
 		</div>
 	</div>
 

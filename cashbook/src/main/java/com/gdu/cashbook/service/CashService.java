@@ -19,6 +19,15 @@ public class CashService {
 	@Autowired 
 	private CashMapper cashMapper;
 	
+	public int removeCash(Cash cash) {
+		return cashMapper.deleteCash(cash);
+	}
+	
+	public int replaceCash(Cash cash) {
+		return cashMapper.updateCash(cash);
+	}
+	
+	
 	public int selectCashKindSumMonth(Cash cash) {
 		return cashMapper.selectCashKindSumMonth(cash);
 	}
