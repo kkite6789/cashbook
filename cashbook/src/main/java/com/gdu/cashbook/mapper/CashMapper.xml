@@ -19,11 +19,10 @@
 	cash
 	SET
 	cash_kind=#{cashKind},
-	cateogry_name#{categoryName},
+	category_name=#{categoryName},
 	cash_price=#{cashPrice},
 	cash_place=#{cashPlace},
-	cash_memo=#{cashMemo},
-	cash_date=curdate()
+	cash_memo=#{cashMemo}
 	WHERE
 	 cash_no=#{cashNo}
 </update>
@@ -88,7 +87,7 @@ FROM dual
 	#{cashPlace},
 	#{cashMemo},
 	#{memberId},
-	curdate()
+	#{cashDate}
 	)
 </insert>
 </mapper>

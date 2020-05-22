@@ -96,13 +96,33 @@ div.gd-left {
     margin-right:30px;
     }
 </style>
+<script>
+$('#monthbtn').click(function(){
+    console.log('#monthbtn click');
+    $.ajax({
+        url:'/getCashListByMonth'
+        ,type:'GET'
+           ,success:function(data){ // data -> json member list
+               $('#list1').empty();
+               $(data).each(function(index,item){
+                   $('#list1').append('<span>1월</span>');
+               });
+           }
+    });
+});
+</script>
 </head>
 <body>
 	<div class="container">
 		<div id="aside" th:include="/include/menu::sidemenu"></div>
 		<div id="section">
 			<br>
-			<h1>가계부</h1>
+			<h1 class="text-center">가계부</h1>
+			
+			<div>
+				<button type="button" id="monthbtn" name="monthbtn">달 테스트</button>
+				<div id="list1" ></div>
+			</div>
 			
 			<h2 class="textMonth" th:text="${month+'월'}"></h2>
 			<div>
@@ -126,7 +146,7 @@ div.gd-left {
 				 <div th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} : ''"></div><!-- 날짜 -->
 				 <div th:each="dnp:${dayAndPriceList}"> <!-- 수입,지출합 -->
 				 	<span th:if="${i-(firstDayOfWeek-1)}==${dnp.day}">
-				 		<span th:class="${dnp.price}>=0? 'gd-blue' :'gd-red'" th:text="${dnp.price}"></span>
+				 		<span th:class="${dnp.price}>=0? 'gd-blue' :'gd-red'" th:text="${#numbers.formatInteger(dnp.price,0,'COMMA')}"></span>
 				 	</span>
 				 </div>
 			</div>

@@ -73,17 +73,17 @@
 						<td th:text="${index.index}+1"></td>
 						<td th:text="${cash.categoryName}"></td>
 						
-						<td style="color:blue" th:if="${cash.cashKind}=='수입'" th:text="${'+' + cash.cashPrice}"></td>
+						<td style="color:blue" th:if="${cash.cashKind}=='수입'" th:text="${'+' + #numbers.formatInteger(cash.cashPrice,0,'COMMA')}"></td>
 						<td  th:unless="${cash.cashKind}=='수입'"></td>
 						
-						<td style="color:red" th:if="${cash.cashKind}=='지출'" th:text="${'-' + cash.cashPrice}"></td>
+						<td style="color:red" th:if="${cash.cashKind}=='지출'" th:text="${'-' + #numbers.formatInteger(cash.cashPrice,0,'COMMA')}"></td>
 						<td th:unless="${cash.cashKind}=='지출'"></td>
 						
 						<td th:text="${cash.cashPlace}"></td>
 						<td th:text="${cash.cashMemo}"></td>
 						<td><a th:href="@{removeCash(cashNo=${cash.cashNo},cashDate=${day})}">삭제</a></td>
 						<!-- th 방식 -->
-						<td><a th:href="@{replaceCash(cashNo=${cash.cashNo})}">수정</a></td>
+						<td><a th:href="@{replaceCash(cashNo=${cash.cashNo},cashDate=${day})}">수정</a></td>
 					</tr>
 				</tbody>
 				
@@ -93,7 +93,7 @@
 			<div th:if="${cashKindSum}==0" class="text-right" style="font-size:30px">합계 : <span style="color:black; font-size: 30px;" th:text="${cashKindSum}"></span></div>
 			<div th:if="${cashKindSum}<0" class="text-right" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${#numbers.formatInteger(cashKindSum,0,'COMMA')}"></span></div>
 			</div>
-			<a class="btn btn-primary" th:href="@{addCash}">입력</a>
+			<a class="btn btn-primary" th:href="@{addCash(cashDate=${day})}">입력</a>
 		</div> 
 </div>
 </body>

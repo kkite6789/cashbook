@@ -24,6 +24,14 @@
         background: white;
     }
 </style>
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
+
+</script>
 </head>
 <body>
 <div class="container">
@@ -31,6 +39,50 @@
 		<div id="section">
 		<br>
 			<h1 class="text-center">가계부 수정</h1>
+			
+			<form method="post" action="/replaceCash" id="myform">
+				<table border="1">
+					<tr>
+						<td>카테고리</td>
+						<td>
+							<select name="categoryName" id="categoryName">
+								<option th:value="쇼핑">쇼핑</option>
+								<option th:value="오락">오락</option>
+								<option th:value="월급">월급</option>
+							</select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>수입/지출</td>
+						<td>
+							<select name="cashKind" id="cashKind">
+								<option th:value="수입">수입</option>
+								<option th:value="지출">지출</option>
+							</select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>금액</td>
+						<td><input type="text" name="cashPrice" id="cashPrice"></td>
+					</tr>
+					
+					<tr>
+						<td>장소</td>
+						<td><input type="text" name="cashPlace" id="cashPlace"></td>
+					</tr>
+		
+					<tr>
+						<td>메모</td>
+						<td><input type="text" name="cashMemo" id="cashMemo"></td>
+					</tr>
+					
+				</table>
+					<div><input type="hidden" name="cashNo" id="cashNo" th:value="${cashNo}"></div>
+					<div><input type="hidden" name="cashDate" id="cashDate" th:value="${cashDate}"></div>
+			<button class="btn" type="button" id="btn">수정</button>
+			</form>
 			
 		</div> 
 </div>
