@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gdu.cashbook.mapper.CashMapper;
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
+import com.gdu.cashbook.vo.MonthAndPrice;
 
 @Service
 @Transactional
@@ -18,6 +19,7 @@ public class CashService {
 	
 	@Autowired 
 	private CashMapper cashMapper;
+	
 	
 	public int removeCash(Cash cash) {
 		return cashMapper.deleteCash(cash);
@@ -30,6 +32,12 @@ public class CashService {
 	
 	public int selectCashKindSumMonth(Cash cash) {
 		return cashMapper.selectCashKindSumMonth(cash);
+	}
+	public List<MonthAndPrice> getCashAndPriceListByMonth(String memberId,int year){
+		Map<String,Object>map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("year", year);
+		return cashMapper.selectMonthPriceList(map);
 	}
 	
 	public List<DayAndPrice> getCashAndPriceList(String memberId,int year, int month) {

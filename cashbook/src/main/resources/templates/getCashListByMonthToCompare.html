@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootsthapcdn.com/bootsthap/4.4.1/css/bootsthap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootsthapcdn.com/bootsthap/4.4.1/js/bootsthap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 800px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        margin-left: 50px;
+        /* text-decoration: none; */
+    }
+    
+    #section {
+        margin-left: 300px;
+        background: white;
+    }
+    .gd-blue{
+		margin-left: 30px;
+		color:blue;
+		text-align:center;
+		vertical-align: middle;   
+	}
+	.gd-red{
+		
+		margin-left: 30px;
+		color:red;
+		text-align:center;
+		vertical-align: middle;   
+	}
+	
+		div.gd-clear {
+		clear:both;
+		margin-left: 10px;
+		border-radius: 5px;
+		color: #FF0000;
+	}
+	div.gd-title {
+		width:80px;
+		height: 80px;
+		margin-bottom:5px;
+		vertical-align: middle;
+	}
+	div.gd-title2 {
+	padding-top:10px;
+		text-align:center;
+		width:80px;
+		height: 40px;
+		margin-bottom:5px;
+		vertical-align: middle;
+	}
+	.gd-left {
+		text-align:center;
+		float: left;
+		width:100px; 
+		height: 60px;
+		border: 1px solid #000000;
+		background-color: gray;
+		margin-right: 5px;
+		margin-bottom: 5px;
+		border-radius: 5px;
+		vertical-align: middle;
+	}
+	.gd-left2 {
+		
+		
+		float: left;
+		width:100px; 
+		height: 80px;
+		border: 1px solid #000000;
+		margin-right: 5px;
+		margin-bottom: 5px;
+	
+
+	}
+	    .totalPrice{
+    margin: 300px 800px 600px;
+    
+    text-align:center;
+    margin-right:30px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+	<div id="aside" th:include="/include/menu::sidemenu"></div>
+	<div id="section">
+	<br>
+		<h1 class="text-center">월별 비교</h1>
+		
+			<div th:each="month,index :${#numbers.sequence(1,12)}"
+				 th:class="${index.index%12} ==0 ? 'gd-clear gd-left': 'gd-left'">
+				<div ><a th:href="@{/getCashListByMonth(month=${month})}" th:text="${month+'월'}"></a></div>
+			</div>
+					<div th:each="month,index :${#numbers.sequence(1,12)}"
+				 th:class="${index.index%12} ==0 ? 'gd-clear gd-left2': 'gd-left2'">
+					<span th:each="dnp:${monthAndPriceList}" ><!-- 수입,지출합 -->
+						<span th:if="${month}==${dnp.month}">
+							<span th:class="${dnp.price}>=0? 'gd-blue' :'gd-red'" th:text="${#numbers.formatInteger(dnp.price,0,'COMMA')}"></span>
+						</span>
+					</span>
+					</div>
+
+		<div>
+			<div th:if="${totalPrice}>0" class="totalPrice" style="font-size:30px">합계 : <span style="color:blue; font-size: 30px;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></div>
+					<div th:if="${totalPrice}==0" class="totalPrice" style="font-size:30px">합계 : <span style="color:black; font-size: 30px;" th:text="${totalPrice}"></span></div>
+					<div th:if="${totalPrice}<0" class="totalPrice" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></div>
+		</div>	
+	</div>
+</div>
+
+</body>
+</html>

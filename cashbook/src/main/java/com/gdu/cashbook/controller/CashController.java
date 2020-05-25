@@ -24,12 +24,64 @@ import com.gdu.cashbook.service.CashService;
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
 import com.gdu.cashbook.vo.LoginMember;
+import com.gdu.cashbook.vo.MonthAndPrice;
 
 @Controller
 public class CashController {
 	
 	@Autowired
 	public CashService cashService;
+	
+	@GetMapping("/getCashListByMonthToCompare")
+	public String getCashListByMonthToCompare(HttpSession session,Model model,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		Calendar cDay = Calendar.getInstance();
+		
+		if(day == null) {
+	    	day=LocalDate.now();
+	    	
+	      } else {
+	    	  cDay.set(day.getYear(), day.getMonthValue()-1, day.getDayOfMonth()); // 오늘 날짜에서 day값과 동일한 값으로
+	    	//day-->cDay 
+	      }
+		 System.out.println(cDay+"<--cDay");
+		
+		String memberId=((LoginMember)session.getAttribute("loginMember")).getMemberId();
+		int year=cDay.get(Calendar.YEAR);
+
+	   
+		System.out.println(memberId+"<--memberId");
+		System.out.println(year+"<--year");
+
+		int totalPrice=0;
+
+		List<MonthAndPrice> monthAndPriceList = cashService.getCashAndPriceListByMonth(memberId, year);
+	      for(MonthAndPrice dnp : monthAndPriceList) {
+	    	  System.out.println(dnp);
+	    	  System.out.println(dnp.getPrice()+"<--dnp.getPrice");
+	    	  System.out.println(dnp.getMonth()+"<--dnp.getMonth");
+	    	  totalPrice += dnp.getPrice(); // 달의 총 입금/지출 금액
+	      }
+	      
+	      System.out.println(monthAndPriceList.toString());
+	      System.out.println(totalPrice+"<--totalPrice");
+		
+		
+		
+		//List<DayAndPrice> dayAndPriceList = cashService.getCashAndPriceList(memberId, year, month); 일일
+		
+		
+		model.addAttribute("year", year);
+		//model.addAttribute("month", month);
+		model.addAttribute("monthAndPriceList", monthAndPriceList);
+		model.addAttribute("totalPrice",totalPrice);
+		return "getCashListByMonthToCompare";
+	}
+	
+	
 	
 	@GetMapping("/getCashListByMonth")
 	public String getCashListByMonth(HttpSession session,Model model,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
@@ -73,6 +125,7 @@ public class CashController {
 	    	  System.out.println(dnp.getPrice()+"<--dnp.getPrice");
 	    	  totalPrice+=dnp.getPrice(); // 달의 총 입금/지출 금액
 	      }
+	      
 	      System.out.println(totalPrice+"<--totalPrice");
 	      //int cashSum=cashService.selectCashKindSumMonth(cash);
 	      month= cDay.get(Calendar.MONTH)+1;
@@ -83,6 +136,7 @@ public class CashController {
 	      model.addAttribute("totalPrice", totalPrice);
 	      model.addAttribute("dayAndPriceList", dayAndPriceList);
 	      model.addAttribute("day", day);
+	      model.addAttribute("year", year);      //년(year)을 넘겨줌
 	      model.addAttribute("month", month);      //월을 넘겨줌
 	      model.addAttribute("lastDay", lastDay);   //마지막 일 --> date의 제일 큰 값을 넘겨줌
 	      

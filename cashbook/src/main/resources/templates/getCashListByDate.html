@@ -44,7 +44,8 @@
 			<br>
 			<h1 class="text-center">가계부</h1>
 			<br>
-			<h2 class="text-center" th:text="${day}"></h2>
+		<!--  	<h2 class="text-center" th:text="${day}"></h2>-->
+			<h2 class="text-center"><a class="text-dark" style="color-:black" th:href="@{getCashListByMonth(day=${day})}"th:text="${day}"></a></h2>
 			<div>
 				<span>
 					<a class="btn gobtn" th:href="@{getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
