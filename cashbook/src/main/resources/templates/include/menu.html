@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <divnk rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/divbs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/divbs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <style>
 
@@ -22,39 +22,44 @@ margin-left: 50px;
 <body>
 	<!-- fragment1 -->
 	<div th:fragment="sidemenu"> <!-- menu:sidemenu -->
+	
 		<div>
 			
 			<br>
 			<br>
 			<br>
 			<br>
-			<div>
-			      <span th:if="${'/upload/'+session.loginMember.memberId+'.PNG'}!=null"><img style="margin-left: 50px;" id="pic" class="rounded-circle" th:src="${'/upload/'+session.memberPic}" width="90" height="90"></span>
+			
+			      <div th:if="${'/upload/'+session.loginMember.memberId+'.PNG'}!=null"><img style="margin-left: 50px;" id="pic" class="rounded-circle" th:src="${'/upload/'+session.memberPic}" width="90" height="90"></div>
 			   
+			
+			
+			
+			
+			
+			<div id="hello">
+				<div th:text="${session.loginMember.memberId}"></div>
+				<div th:text="일반회원"></div>
 			</div>
-			<br>
-			
-			
-			<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<span th:text="${session.loginMember.memberId}"></span>님 반갑습니다.
-			
 		</div>
-		<ul>
 		<br>
-			<li><a style="color:black" class="menuLink" th:href="@{/home}">홈</a></li>
-			<br>
-			<li><a style="color:black" class="menuLink" th:href="@{/memberInfo}">회원정보</a></li>
-			<br>
-			<li><a style="color:black" class="menuLink" th:href="@{/getCashListByDate}">일일 가계부</a></li>
-			<br>
-			<li><a style="color:black" class="menuLink" th:href="@{/getCashListByMonth}">월별 가계부</a></li>
-			<br>
-			<li><a style="color:black" class="menuLink" th:href="@{/boardList}">게시판</a></li>
-			<br>
-			<li><a style="color:black" class="menuLink" th:href="@{/logout}">로그아웃</a></li>
-		</ul>
-	
+		<br>
+		<div id="box12">
+
+		
+			<div class="item" id="goHome"><a th:href="@{/home}">홈</a></div>
+			
+			<div class="item" id="goInfo"><a th:href="@{/memberInfo}">회원정보</a></div>
+			
+			<div class="item" id="goDate"><a th:href="@{/getCashListByDate}">일일 가계부</a></div>
+			
+			<div class="item" id="goMonth"><a th:href="@{/getCashListByMonth}">월별 가계부</a></div>
+			
+			<div class="item" id="goQna"><a th:href="@{/boardList}">게시판</a></div>
+			
+			<div class="item" id="goLogout"><a th:href="@{/logout}">로그아웃</a></div>
+		
+	</div>
 	</div>
 	
 	<!-- fragment2 -->

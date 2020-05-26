@@ -34,6 +34,7 @@ public class CashController {
 	
 	@GetMapping("/getCashListByMonthToCompare")
 	public String getCashListByMonthToCompare(HttpSession session,Model model,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+		System.out.println("월별비교 controller 시작");
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
@@ -66,6 +67,7 @@ public class CashController {
 	    	  totalPrice += dnp.getPrice(); // 달의 총 입금/지출 금액
 	      }
 	      
+	      
 	      System.out.println(monthAndPriceList.toString());
 	      System.out.println(totalPrice+"<--totalPrice");
 		
@@ -84,10 +86,13 @@ public class CashController {
 	
 	
 	@GetMapping("/getCashListByMonth")
-	public String getCashListByMonth(HttpSession session,Model model,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+	public String getCashListByMonth(HttpSession session,Model model,@RequestParam(value="getMonth",required=false)Integer getMonth, @RequestParam(value="getYear",required=false)Integer getYear,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		
+		
+		
 		System.out.println(day+"<--day");
 		Calendar cDay = Calendar.getInstance();      //오늘날짜
 	      // System.out.println(cDay.get(Calendar.MONTH)+1);
@@ -98,6 +103,15 @@ public class CashController {
 	    	  cDay.set(day.getYear(), day.getMonthValue()-1, day.getDayOfMonth()); // 오늘 날짜에서 day값과 동일한 값으로
 	    	//day-->cDay 
 	      }
+
+	      System.out.println(getYear+"<--비교에서 받아온 year");
+	      System.out.println(getMonth+"<--비교에서 받아온 month");
+	      //month와 year을 받아 cDay에 다시 넣기
+	      if(getMonth !=null && getYear != null) {
+	    	  day = LocalDate.of(getYear, getMonth, 1);
+	    	  cDay.set(day.getYear(), day.getMonthValue()-1, day.getDayOfMonth()); // 오늘 날짜에서 day값과 동일한 값으로
+	      }
+	      
 	      System.out.println(cDay+"<--cDay");
 	      /*
 	       * 0. 오늘 LocalDate 타입
@@ -105,9 +119,9 @@ public class CashController {
 	       * 2. 이번달의 마지막 일
 	       * 3. 이번달 1일의 요일
 	       */
-	       
+	      
 	      System.out.println(day+"<--day");
-	      String cashDate=(day.toString());
+	      //String cashDate=(day.toString());
 	      //일별 수입, 지출 총액
 	      String memberId=((LoginMember)session.getAttribute("loginMember")).getMemberId();
 	      int year=cDay.get(Calendar.YEAR);
@@ -232,7 +246,7 @@ public class CashController {
 	
 	
 	@GetMapping("/getCashListByDate")
-	public String getCashListByDate(HttpSession session,Model model,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+	public String getCashListByDate(HttpSession session,Model model,@RequestParam(value="getMonth",required=false)Integer getMonth, @RequestParam(value="getYear",required=false)Integer getYear,@RequestParam(value="getDate",required=false)Integer getDate,@RequestParam(value="day", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		
 		System.out.println(day+"<-- day");
 
@@ -249,13 +263,16 @@ public class CashController {
 		//Date day2 = new Date();
 		//Calendar today = Calendar.getInstance(); //"yyyy-MM-dd" 형식
 		
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		//SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		//SimpleDateFormat sdf2=new SimpleDateFormat("E");
 		//SimpleDateFormat sdf3=new SimpleDateFormat("yyyy-MM-dd-E");
 		
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         //LocalDate date = LocalDate.parse(string, formatter);
-		
+		 if(getMonth !=null && getYear != null && getDate != null) {
+	    	  day = LocalDate.of(getYear, getMonth, getDate);
+	    	 
+	      }
 		
 		
 		System.out.println(day+"<--day");

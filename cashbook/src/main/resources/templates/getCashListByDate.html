@@ -10,7 +10,7 @@
 <style>
  #aside {
         width: 200px;
-        height: 800px;
+        height: 950px;
         position: fixed;
         background:#B5B2FF;
         overflow: hidden;
@@ -23,6 +23,34 @@
         margin-left: 200px;
         background: white;
     }
+    #hello{
+	font-size: 20px;
+	text-align:center;
+	
+}
+#goDate a{
+color:white;
+}
+#box12{
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-size: 20px;
+font-weight: bold;
+}
+
+.item a{
+color:black;
+display:flex;
+justify-content:space-around;
+}
+
+.item a:hover{
+color:white;
+text-decoration: none;
+font-size: 20px
+}
     .gobtn{
     font-size: 18px; 
     color: rgb(131, 131, 131); 
@@ -34,6 +62,10 @@
     vertical-align: middle;
     
     }
+    .headline{
+	 display:flex;
+    justify-content:space-between;
+	}
 </style>
 </head>
 <body>
@@ -42,14 +74,16 @@
 	<div id="aside" th:include="/include/menu::sidemenu"></div>
 		<div id="section">
 			<br>
-			<h1 class="text-center">가계부</h1>
+			<h1 class="text-center" style="margin-right:10px;">가계부</h1>
+			<br>
 			<br>
 		<!--  	<h2 class="text-center" th:text="${day}"></h2>-->
-			<h2 class="text-center"><a class="text-dark" style="color-:black" th:href="@{getCashListByMonth(day=${day})}"th:text="${day}"></a></h2>
-			<div>
+			
+			<div th:class="headline">
 				<span>
 					<a class="btn gobtn" th:href="@{getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
 				</span>
+				<h2 class="text-center"><a class="text-dark" style="color-:black" th:href="@{getCashListByMonth(day=${day})}"th:text="${day}"></a></h2>
 				<span style="float:right">
 					<a class="btn gobtn" th:href="@{getCashListByDate(day=${day.plusDays(1)})}" >다음</a>
 				</span>

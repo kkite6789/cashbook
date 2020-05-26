@@ -14,7 +14,7 @@
 <style>
 #aside {
 	width: 200px;
-	height: 800px;
+	height: 950px;
 	position: fixed;
 	background: #B5B2FF;
 	overflow: hidden;
@@ -22,12 +22,42 @@
 	margin-left: -50px;
 	/* text-decoration: none; */
 }
+#hello{
+	font-size: 20px;
+	text-align:center;
+	
+}
+
+#box12{
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-size: 20px;
+font-weight: bold;
+}
+
+.item a{
+color:black;
+display:flex;
+justify-content:space-around;
+}
+
+.item a:hover{
+color:white;
+text-decoration: none;
+font-size: 20px
+}
+#goMonth a{
+color:white;
+}
 
 #section {
 	margin-left: 200px;
 	background: white;
 }
 div.gd-left {
+		text-align:center;
 		float: left;
 		width:120px; 
 		height: 100px;
@@ -41,27 +71,31 @@ div.gd-left {
 		margin-left: 10px;
 		border-radius: 5px;
 		color: #FF0000;
+	
 	}
 	div.gd-title {
 	
 		text-align:left;
 		width:120px;
 		height: 40px;
-		background-color: gray;
+		background-color: #A6A6A6;
 		vertical-align: middle;
 	}
 	.gd-blue{
-		margin-left: 30px;
+		
 		color:blue;
 		text-align:center;
 		vertical-align: middle;   
 	}
 	.gd-red{
 		
-		margin-left: 30px;
+		
 		color:red;
 		text-align:center;
 		vertical-align: middle;   
+	}
+	.cal{
+		margin-bottom:100px;
 	}
 	.gobtn{
 	margin-left: 10px;
@@ -89,59 +123,77 @@ div.gd-left {
     text-align:center;
     margin-right: 20px;
     }
-    .totalPrice{
-    margin: 400px 900px 600px;
-    margin-right:30px;
+	.headline{
+	 display:flex;
+    justify-content:space-between;
+	}
+	
+    .totalPrice2{
+    
+    width:900px;
+    display:flex;
+    justify-content:space-between;
+	font-size:25px;
     }
-    .comparePrice{
-     margin: 400px 300px 600px;
-    }
+    
+
 </style>
 <script>
 </script>
 </head>
 <body>
 	<div class="container">
+	<div id="box1">
 		<div id="aside" th:include="/include/menu::sidemenu"></div>
+	</div>
 		<div id="section">
 			<br>
-			<h1 class="text-center">가계부</h1>
+			<h1 class="text-center" style="margin-right:40px;">가계부</h1>
+			
+					
 			
 			
-			<h2 class="textMonth" th:text="${month+'월'}"></h2>
-			<div>
+			<div th:class="headline">
 				<span> <a class="btn gobtn"
 					th:href="@{/getCashListByMonth(day=${day.plusMonths(-1)})}">이전</a>
-				</span> <span style="float: right"> <a class="btn gobtn2"
+				</span> 
+				<h2 class="textMonth" th:text="${year+'년'+'  '+month+'월'}"></h2>
+				<span style="float: right"> <a class="btn gobtn2"
 					th:href="@{/getCashListByMonth(day=${day.plusMonths(1)})}">다음</a>
 				</span>
 			</div>
+			
 			<br>
-			<div class="gd-left gd-clear gd-title">일</div>
-			<div class="gd-left gd-title">월</div>
-			<div class="gd-left gd-title">화</div>
-			<div class="gd-left gd-title">수</div>
-			<div class="gd-left gd-title">목</div>
-			<div class="gd-left gd-title">금</div>
-			<div class="gd-left gd-title">토</div>
+			<div style="text-align:center" class="gd-left gd-clear gd-title">일</div>
+			<div style="text-align:center" class="gd-left gd-title">월</div>
+			<div style="text-align:center" class="gd-left gd-title">화</div>
+			<div style="text-align:center" class="gd-left gd-title">수</div>
+			<div style="text-align:center" class="gd-left gd-title">목</div>
+			<div style="text-align:center" class="gd-left gd-title">금</div>
+			<div style="text-align:center" class="gd-left gd-title">토</div>
+			<div th:class="cal">
 			<!--  5월달 lastDay == 31 -->
 			<div th:each="i,index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}"  
 				 th:class="${index.index%7} ==0 ? 'gd-clear gd-left': 'gd-left'" >
 				 <div th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} : ''"></div><!-- 날짜 -->
 				 <div th:each="dnp:${dayAndPriceList}"> <!-- 수입,지출합 -->
-				 	<span th:if="${i-(firstDayOfWeek-1)}==${dnp.day}">
-				 		<span th:class="${dnp.price}>=0? 'gd-blue' :'gd-red'" th:text="${#numbers.formatInteger(dnp.price,0,'COMMA')}"></span>
-				 	</span>
+				 	<div th:if="${i-(firstDayOfWeek-1)}==${dnp.day}">
+				 		<div><a style="text-align:center" th:class="${dnp.price}>=0? 'gd-blue' :'gd-red'"  th:href="@{/getCashListByDate(getYear=${year},getMonth=${month},getDate=${i-(firstDayOfWeek-1)})}" th:text="${#numbers.formatInteger(dnp.price,0,'COMMA')}"></a></div>
+				 	</div>
 				 </div>
 			</div>
-			<div>
- 				<a class="comparePrice" style="font-size:30px" th:href="@{/getCashListByMonthToCompare(day=${day})}">월별비교</a>
 			</div>
-			 <div>
+			<br>
+			<br>
+			<br>
 			
-					<div th:if="${totalPrice}>0" class="btn" style="font-size:30px">합계 : <span style="color:blue; font-size: 30px;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></div>
-					<div th:if="${totalPrice}==0" class="totalPrice" style="font-size:30px">합계 : <span style="color:black; font-size: 30px;" th:text="${totalPrice}"></span></div>
-					<div th:if="${totalPrice}<0" class="totalPrice" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></div>
+		
+				
+				 <div th:class="totalPrice2">
+					<a class="btn btn-primary" style="margin-top:10px; margin-left:10px; font-size:20px; height:48px;" th:href="@{/getCashListByMonthToCompare(day=${day})}">월별비교</a>
+					<span th:if="${totalPrice}>0" class="btn" style="font-size:30px">합계 : <span style="color:blue;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></span>
+					<span th:if="${totalPrice}==0" class="totalPrice" style="font-size:30px">합계 : <span style="color:black; " th:text="${totalPrice}"></span></span>
+					<span th:if="${totalPrice}<0" class="totalPrice" style="font-size:30px">합계 : <span style="color:red;" th:text="${#numbers.formatInteger(totalPrice,0,'COMMA')}"></span></span>
 				</div>
 		</div>
 	</div>
