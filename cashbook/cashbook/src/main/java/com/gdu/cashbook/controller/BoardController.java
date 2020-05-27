@@ -189,6 +189,8 @@ public class BoardController {
 		
 		return "getBoardList";
 	}
+
+	
 	/*
 	@GetMapping("/getBoardOne")
 	public String detailView(Model model, HttpSession session, @RequestParam(value="boardNo") int boardNo,

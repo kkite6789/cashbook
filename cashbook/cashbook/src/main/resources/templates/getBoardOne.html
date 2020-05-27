@@ -204,7 +204,9 @@ $(document).ready(function() {
 							<a class="btn btn-secondary commentbtn" th:href="@{replaceComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}" th:text="수정"></a>
 							<a class="btn btn-secondary commentbtn"  th:href="@{removeComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}"  th:text="삭제"></a>
 						</div>
-			
+					<div>
+					<!-- 페이징 버튼생성 boardNo와 currentPage값 전달 -->
+					</div>
 			
 		</div> 
 </div>

@@ -42,6 +42,7 @@ public class BoardService {
 		
 	
 	}
+
 	/*
 	public Map<String, Object> getBoardOne(int boardNo, int currentPage) {
 		int rowPerPage = 5;
@@ -79,12 +80,13 @@ public class BoardService {
 		return boardMapper.deleteComment(comment);
 	}
 	// LastPage 구하는 메서드
-		public int getLastPage(int rowPerPage) {
-			int totalRow = boardMapper.selectTotalRow();
-			int lastPage = totalRow / rowPerPage;
-			if(totalRow % rowPerPage != 0) {
-				lastPage += 1;
-			}
-			return lastPage;
+	
+	public int getLastPage(int rowPerPage) {
+		int totalRow = boardMapper.selectTotalRow();
+		int lastPage = totalRow / rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
 		}
+		return lastPage;
+	}
 }

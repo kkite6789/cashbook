@@ -14,6 +14,7 @@ public interface BoardMapper {
 	public Board selectBoardOne(int boardNo);
 	public List<Comment> selectCommentList(int boardNo);
 	
+	
 	public List<Comment> selectCommentList2(int boardNo, int beginRow, int rowPerPage);
 	
 	public int insertBoard(Board board);
