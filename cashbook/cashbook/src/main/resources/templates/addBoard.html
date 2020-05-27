@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 950px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        margin-left: -50px;
+        /* text-decoration: none; */
+    }
+    
+#hello{
+	font-size: 20px;
+	text-align:center;
+	
+}
+
+#box12{
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-size: 20px;
+font-weight: bold;
+}
+
+.item a{
+color:black;
+display:flex;
+justify-content:space-around;
+}
+
+.item a:hover{
+color:white;
+text-decoration: none;
+font-size: 20px
+}
+#goQna a{
+color:white;
+}
+    #section {
+        margin-left: 200px;
+        background: white;
+    }
+</style>
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
+</script>
+</head>
+<body>
+<div class="container">
+
+	<div id="aside" th:include="/include/menu::sidemenu"></div>
+
+		<div id="section">
+		<br>
+			<h1 class="text-center">보드 입력</h1>
+			<form id="myform" method="post" action="/addBoard">
+				<div>
+					<div>제목:</div>
+					<div><input type="text" name="boardTitle" placeholder="제목을 입력하세요."></div>
+				</div>
+				<div>
+					<div>내용:</div>
+					<div><input type="text" name="boardContent" placeholder="내용을 입력하세요."></div>
+				</div>
+				<button type="button" id="btn">입력</button>
+			</form>
+		</div> 
+</div>
+</body>
+</html>

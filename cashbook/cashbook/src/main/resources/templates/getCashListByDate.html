@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>cashBook</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 950px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        margin-left: -50px;
+        /* text-decoration: none; */
+    }
+    
+    #section {
+        margin-left: 200px;
+        background: white;
+    }
+    #hello{
+	font-size: 20px;
+	text-align:center;
+	
+}
+#goDate a{
+color:white;
+}
+#box12{
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-size: 20px;
+font-weight: bold;
+}
+
+.item a{
+color:black;
+display:flex;
+justify-content:space-around;
+}
+
+.item a:hover{
+color:white;
+text-decoration: none;
+font-size: 20px
+}
+    .gobtn{
+    font-size: 18px; 
+    color: rgb(131, 131, 131); 
+    text-align: center; 
+    border-radius:25px;
+    background-color: rgb(230, 230, 230);
+    width:100px;
+    height:36px;
+    vertical-align: middle;
+    
+    }
+    .headline{
+	 display:flex;
+    justify-content:space-between;
+	}
+</style>
+</head>
+<body>
+<div class="container">
+
+	<div id="aside" th:include="/include/menu::sidemenu"></div>
+		<div id="section">
+			<br>
+			<h1 class="text-center" style="margin-right:10px;">가계부</h1>
+			<br>
+			<br>
+		<!--  	<h2 class="text-center" th:text="${day}"></h2>-->
+			
+			<div th:class="headline">
+				<span>
+					<a class="btn gobtn" th:href="@{getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
+				</span>
+				<h2 class="text-center"><a class="text-dark" style="color-:black" th:href="@{getCashListByMonth(day=${day})}"th:text="${day}"></a></h2>
+				<span style="float:right">
+					<a class="btn gobtn" th:href="@{getCashListByDate(day=${day.plusDays(1)})}" >다음</a>
+				</span>
+			</div>
+			<!--  <div th:text="${day}"></div> -->
+			<br>
+			<table class="table table-bordered" style="text-align:center">
+				<thead class="thead-light">
+					<tr>
+						<th>&nbsp;</th>
+						<th>카테고리</th>
+						<th>수입</th>
+						<th>지출</th>
+						<th>장소</th>
+						<th>메모</th>
+						<th>삭제</th>
+						<th>수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cash, index : ${cashList}">
+						<td th:text="${index.index}+1"></td>
+						<td th:text="${cash.categoryName}"></td>
+						
+						<td style="color:blue" th:if="${cash.cashKind}=='수입'" th:text="${'+' + #numbers.formatInteger(cash.cashPrice,0,'COMMA')}"></td>
+						<td  th:unless="${cash.cashKind}=='수입'"></td>
+						
+						<td style="color:red" th:if="${cash.cashKind}=='지출'" th:text="${'-' + #numbers.formatInteger(cash.cashPrice,0,'COMMA')}"></td>
+						<td th:unless="${cash.cashKind}=='지출'"></td>
+						
+						<td th:text="${cash.cashPlace}"></td>
+						<td th:text="${cash.cashMemo}"></td>
+						<td><a th:href="@{removeCash(cashNo=${cash.cashNo},cashDate=${day})}">삭제</a></td>
+						<!-- th 방식 -->
+						<td><a th:href="@{replaceCash(cashNo=${cash.cashNo},cashDate=${day})}">수정</a></td>
+					</tr>
+				</tbody>
+				
+			</table>
+			<div>
+			<div th:if="${cashKindSum}>0" class="text-right" style="font-size:30px">합계 : <span style="color:blue; font-size: 30px;" th:text="${#numbers.formatInteger(cashKindSum,0,'COMMA')}"></span></div>
+			<div th:if="${cashKindSum}==0" class="text-right" style="font-size:30px">합계 : <span style="color:black; font-size: 30px;" th:text="${cashKindSum}"></span></div>
+			<div th:if="${cashKindSum}<0" class="text-right" style="font-size:30px">합계 : <span style="color:red; font-size: 30px;" th:text="${#numbers.formatInteger(cashKindSum,0,'COMMA')}"></span></div>
+			</div>
+			<a class="btn btn-primary" th:href="@{addCash(cashDate=${day})}">입력</a>
+		</div> 
+</div>
+</body>
+</html>

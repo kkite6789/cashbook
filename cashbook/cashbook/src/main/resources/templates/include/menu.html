@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <divnk rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/divbs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/divbs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+
+
+
+#pic{
+margin-left: 50px;
+}
+
+</style>
+
+
+</head>
+<body>
+	<!-- fragment1 -->
+	<div th:fragment="sidemenu"> <!-- menu:sidemenu -->
+	
+		<div>
+			
+			<br>
+			<br>
+			<br>
+			<br>
+			
+			      <div th:if="${'/upload/'+session.loginMember.memberId+'.PNG'}!=null"><img style="margin-left: 50px;" id="pic" class="rounded-circle" th:src="${'/upload/'+session.memberPic}" width="90" height="90"></div>
+			   
+			
+			
+			
+			
+			
+			<div id="hello">
+				<div th:text="${session.loginMember.memberId}"></div>
+				<div th:text="일반회원"></div>
+			</div>
+		</div>
+		<br>
+		<br>
+		<div id="box12">
+
+		
+			<div class="item" id="goHome"><a th:href="@{/home}">홈</a></div>
+			
+			<div class="item" id="goInfo"><a th:href="@{/memberInfo}">회원정보</a></div>
+			
+			<div class="item" id="goDate"><a th:href="@{/getCashListByDate}">일일 가계부</a></div>
+			
+			<div class="item" id="goMonth"><a th:href="@{/getCashListByMonth}">월별 가계부</a></div>
+			
+			<div class="item" id="goQna"><a th:href="@{/getBoardList}">게시판</a></div>
+			
+			<div class="item" id="goLogout"><a th:href="@{/logout}">로그아웃</a></div>
+		
+	</div>
+	</div>
+	
+	<!-- fragment2 -->
+	
+	
+	
+	<!-- fragment3 -->
+	
+	
+	
+	<!-- fragment4 -->
+</body>
+</html>
