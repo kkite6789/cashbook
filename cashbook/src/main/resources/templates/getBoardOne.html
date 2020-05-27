@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 950px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        margin-left: -50px;
+        /* text-decoration: none; */
+    }
+    
+#hello{
+	font-size: 20px;
+	text-align:center;
+	
+}
+
+#box12{
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-size: 20px;
+font-weight: bold;
+}
+
+.item a{
+color:black;
+display:flex;
+justify-content:space-around;
+}
+	.gobtn{
+	margin-left: 10px;
+    font-size: 18px; 
+    color: rgb(131, 131, 131); 
+    text-align: center;
+    border-radius:25px;
+    background-color: rgb(230, 230, 230);
+    width:100px;
+    height:36px;
+    vertical-align: middle;   
+    }
+    .gobtn2{
+    margin-right: 30px;
+    font-size: 18px; 
+    color: rgb(131, 131, 131); 
+    text-align: center; 
+    border-radius:25px;
+    background-color: rgb(230, 230, 230);
+    width:100px;
+    height:36px;
+    vertical-align: middle;   
+    }
+    	.headline{
+	 display:flex;
+    justify-content:space-between;
+	}
+.item a:hover{
+color:white;
+text-decoration: none;
+font-size: 20px
+}
+#goQna a{
+color:white;
+}
+#section {
+	margin-left: 200px;
+	background: white;
+}
+#inputComment{
+width:785px;
+height:40px;
+}
+#commentbtn{
+width:100px;
+height:40px;
+}
+.board{
+
+}
+#boardTitle{
+width: 890px;
+height:40px;
+background-color: white;
+
+}
+#boardWriter,#boardDate{
+
+width:443px;
+height:40px;
+border: 1px solid;
+border-color:#BDBDBD;
+padding-left:10px;
+
+}
+#boardContent{
+width: 890px;
+height:130px;
+background-color: white;
+}
+#update{
+margin-left:580px;
+}
+#delete{
+
+}
+#commentWriter{
+	width:100px;
+	height:40px;
+	border: 1px solid;
+border-color:#BDBDBD;
+}
+#commentContent{
+	width:600px;
+	height:40px;
+	border: 1px solid;
+border-color:#BDBDBD;
+}
+.go1{
+width:100px;
+height:40px;
+}
+.commentbtn{
+width:90px;
+height:40px;
+}
+</style>
+
+<script>
+$(document).ready(function() {
+	$('#commentbtn').click(function() {
+		$('#commentForm').submit();
+	});
+});
+
+</script>
+</head>
+<body>
+<div class="container">
+
+	<div id="aside" th:include="/include/menu::sidemenu"></div>
+
+		<div id="section">
+		<br>
+			<h1 class="text-center">상세보기</h1>
+			<div th:class="headline">
+				<span> <a class="btn gobtn"
+					th:href="@{getBoardOne}">이전</a>
+				</span> 
+				<span style="float: right"> <a class="btn gobtn2"
+					th:href="@{getBoardOne}">다음</a>
+				</span>
+			</div>
+			<br>
+			<div >
+						<div class="form-group">
+						
+							<input type="text" class="board form-control" id="boardTitle" th:value="${board.boardTitle}" readonly>
+							
+						</div>
+					
+						<div class="form-group">
+							<input type="text" class="board"  id="boardWriter" th:value="${board.boardWriter}" readonly>
+							<input type="text" class="board"  id="boardDate" th:value="${board.boardDate}" readonly>
+						</div>
+					
+						<div class="form-group">
+							<textarea rows="5"cols="30"  class="board form-control"  id="boardContent" th:text="${board.boardContent}" readonly></textarea>
+						</div>			
+						
+			</div>
+			
+						<span>
+							<span><a class="btn btn-primary go1" th:href="@{getBoardList}" th:text="목록으로"></a></span>
+							<span><a class="btn btn-primary go1" id="update" th:href="@{replaceBoard(boardNo=${board.boardNo})}" th:text="수정"></a></span>
+							<span><a class="btn btn-primary go1" id="delete" th:href="@{removeBoard(boardNo=${board.boardNo})}" th:text="삭제"></a></span>
+							
+						</span>
+						
+						<br>
+						<br>
+						<div>
+						<form id="commentForm" method="post" action="/addComment">
+							<input type="text" id="inputComment" name="commentContent" placeholder="댓글 입력">
+							<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+							<button type="button" id="commentbtn">입력</button>
+						</form>
+						<br>
+						</div>
+						<div th:each="comment, index : ${commentList}">
+							<input type="text" class="comment" id="commentWriter" th:value="${comment.commentWriter}" readonly>
+							<input type="text" class="comment" id="commentContent" th:value="${comment.commentContent}" readonly>
+							<a class="btn btn-secondary commentbtn" th:href="@{replaceComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}" th:text="수정"></a>
+							<a class="btn btn-secondary commentbtn"  th:href="@{removeComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}"  th:text="삭제"></a>
+						</div>
+			
+			
+		</div> 
+</div>
+</body>
+</html>
