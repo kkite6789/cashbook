@@ -164,7 +164,7 @@ public class BoardController {
 		
 		System.out.println(board.toString());
 		System.out.println(commentList.toString());
-		model.addAttribute("commentList", commentList);
+		model.addAttribute("co	mmentList", commentList);
 		model.addAttribute("board", board);
 		return "getBoardOne";
 	}

@@ -90,10 +90,12 @@ color:white;
 		<div id="section">
 		<br>
 			<div th:class="headline">
-				<span> <a class="btn gobtn" th:href="@{getBoardList(currentPage=${currentPage-1})}">이전</a></span> 
+				
+				<span> <a class="btn gobtn" th:href="@{getBoardList(currentPage=${currentPage}-1)}">이전</a></span> 
+				
 				<h1 class="text-center">board</h1>
 				<span style="float: right"> <a class="btn gobtn2"
-					th:href="@{getBoardList(currentPage=${currentPage+1})}">다음</a>
+					th:href="@{getBoardList(currentPage=${currentPage}+1)}">다음</a>
 				</span>
 			</div>
 		<br>
@@ -109,8 +111,8 @@ color:white;
 				<tbody>
 					<tr th:each="board, index : ${boardList}">
 						<td th:text="${board.boardNo}"></td>
-						<td><a th:href="@{getBoardOne(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
 						<td th:text="${board.boardWriter}"></td>
+						<td><a th:href="@{getBoardOne(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
 						<td th:text="${board.boardDate}"></td>
 					</tr>
 				</tbody>

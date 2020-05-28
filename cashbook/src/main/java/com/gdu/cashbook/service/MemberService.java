@@ -146,8 +146,8 @@ public class MemberService {
 		String memberPic = memberMapper.selectMemberPic(loginMember.getMemberId());
 		System.out.println(memberPic+"<---memberPic");
 		//1_2. 파일 삭제
-		String path2 ="C:\\kkt\\sts_work\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\";
-		File file = new File(path2+memberPic);//사진은 memberId와 이름이 동일하다.
+		//String path2 ="C:\\kkt\\sts_work\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\";
+		File file = new File(path+memberPic);//사진은 memberId와 이름이 동일하다.
 		System.out.println(file+"<---file");
 		if(file.exists()) {
 			file.delete();

@@ -70,15 +70,15 @@ $(document).ready(function() {
 		<br>
 			<h1 class="text-center">보드 입력</h1>
 			<form id="myform" method="post" action="/addBoard">
-				<div>
+				<div class="form-group">
 					<div>제목:</div>
-					<div><input type="text" name="boardTitle" placeholder="제목을 입력하세요."></div>
+					<div><input type="text" class="form-control" name="boardTitle" placeholder="제목을 입력하세요."></div>
 				</div>
-				<div>
+				<div class="form-group">
 					<div>내용:</div>
-					<div><input type="text" name="boardContent" placeholder="내용을 입력하세요."></div>
+					<div><input type="text" class="form-control" name="boardContent" placeholder="내용을 입력하세요."></div>
 				</div>
-				<button type="button" id="btn">입력</button>
+				<button type="button" class="btn btn-primary" id="btn">입력</button>
 			</form>
 		</div> 
 </div>

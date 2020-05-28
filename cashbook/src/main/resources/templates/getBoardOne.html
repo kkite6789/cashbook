@@ -155,10 +155,10 @@ $(document).ready(function() {
 			<h1 class="text-center">상세보기</h1>
 			<div th:class="headline">
 				<span> <a class="btn gobtn"
-					th:href="@{getBoardOne}">이전</a>
+					th:href="@{getBoardOne(boardNo=${board.boardNo}-1)}">이전</a>
 				</span> 
 				<span style="float: right"> <a class="btn gobtn2"
-					th:href="@{getBoardOne}">다음</a>
+					th:href="@{getBoardOne(boardNo=${board.boardNo}+1)}">다음</a>
 				</span>
 			</div>
 			<br>
