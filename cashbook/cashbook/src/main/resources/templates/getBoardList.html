@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+ #aside {
+        width: 200px;
+        height: 950px;
+        position: fixed;
+        background:#B5B2FF;
+        overflow: hidden;
+        float: left;
+        margin-left: -50px;
+        /* text-decoration: none; */
+    }
+    
+#hello{
+	font-size: 20px;
+	text-align:center;
+	
+}
+	.gobtn{
+	margin-left: 10px;
+    font-size: 18px; 
+    color: rgb(131, 131, 131); 
+    text-align: center;
+    border-radius:25px;
+    background-color: rgb(230, 230, 230);
+    width:100px;
+    height:36px;
+    vertical-align: middle;   
+    }
+    .gobtn2{
+    margin-right: 30px;
+    font-size: 18px; 
+    color: rgb(131, 131, 131); 
+    text-align: center; 
+    border-radius:25px;
+    background-color: rgb(230, 230, 230);
+    width:100px;
+    height:36px;
+    vertical-align: middle;   
+    }
+    	.headline{
+	 display:flex;
+    justify-content:space-between;
+	}
+#box12{
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-size: 20px;
+font-weight: bold;
+}
+
+.item a{
+color:black;
+display:flex;
+justify-content:space-around;
+}
+	.headline{
+	 display:flex;
+    justify-content:space-between;
+	}
+.item a:hover{
+color:white;
+text-decoration: none;
+font-size: 20px
+}
+#goQna a{
+color:white;
+}
+    #section {
+        margin-left: 200px;
+        background: white;
+    }
+</style>
+</head>
+<body>
+	<div class="container">
+	<div id="box1">
+	<div id="aside" th:include="/include/menu::sidemenu"></div>
+	</div>
+		<div id="section">
+		<br>
+			<div th:class="headline">
+				<span> <a class="btn gobtn" th:href="@{getBoardList(currentPage=${currentPage}-1)}">이전</a></span> 
+				<h1 class="text-center">board</h1>
+				<span style="float: right"> <a class="btn gobtn2"
+					th:href="@{getBoardList(currentPage=${currentPage}+1)}">다음</a>
+				</span>
+			</div>
+		<br>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>글 제목</th>
+						<th>작성자</th>
+						<th>날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="board, index : ${boardList}">
+						<td th:text="${board.boardNo}"></td>
+						<td><a th:href="@{getBoardOne(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
+						<td th:text="${board.boardWriter}"></td>
+						<td th:text="${board.boardDate}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<a class="btn btn-primary" th:href="@{addBoard}" th:text="생성"></a>
+		</div> 
+</div>
+</body>
+</html>

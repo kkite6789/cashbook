@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	let helperInit = function() {
+		$('#idHelper').text("");
+		$('#pwHelper').text("");
+		$('#nameHelper').text("");
+		$('#addrHelper').text("");
+		$('#phoneHelper').text("");
+		$('#emailHelper').text("");
+	}
+
+	$(document).ready(function() {
+		$('#btn').click(function() {
+			if($('#memberId').val().length < 4) {
+				helperInit();
+				$('#idHelper').text("ID는 4자 이상");
+				$('#memberId').focus();
+				
+			} else if ($('#memberPw').val().length < 4) {
+				helperInit();
+				$('#pwHelper').text("PW는 4자 이상");
+				$('#memberPw').focus();
+			} else if ($('#memberPw').val() != $('#memberPw2').val()) {
+				helperInit();
+				$('#pwHelper').text("PW를 확인하세요.");
+				$('#memberPw').focus();
+			} else if ($('#memberName').val().length === 0) {
+				helperInit();
+				$('#nameHelper').text("Name을 입력하세요");
+				$('#memberName').focus();
+			} else if ($('#memberAddr').val().length === 0) {
+				helperInit();
+				$('#addrHelper').text("Addr을 입력하세요");
+				$('#memberAddr').focus();
+			} else if ($('#memberPhone').val().length === 0) {
+				helperInit();
+				$('#phoneHelper').text(" phone을 입력하세요");
+				$('#memberPhone').focus();
+			} else if ($('#memberEmail').val().length === 0) {
+				helperInit();
+				$('#emailHelper').text("email을 입력하세요");
+				$('#memberEmail').focus();
+			} else {
+				$('#myform').submit();
+			}
+
+		});
+		$('#idBtn').click(function() {
+			if($('#memberIdCheck').val().length < 4) {
+				$('#idCheckHelper').text("ID는 4자 이상");
+				$('#memberIdCheck').focus();
+			} else{
+			$('#idForm').submit();
+			}
+		});
+	});
+</script>
+<style>
+	.card{
+	width:680px;
+	height:816px;
+	float:center;
+	top:5%;
+	
+	}
+	#btn{
+	width:300px;
+	height:38px;
+	}
+	#memberIdCheck{
+	width:300px;
+	height:40px;
+	}
+	#memberId,#memberPw,#memberPw2,#memberName,#memberPhone,#memberAddr,#memberEmail{
+	width:300px;
+	height:40px;
+	align:center;
+	}
+</style>
+</head>
+<body>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<div class="card">
+   				 <div class="card-body text-center">
+				<h1>회원가입</h1>
+				<br>
+				<form id="idForm" method="post" action="/checkMemberId" enctype="application/x-www-form-urlencoded">
+					<div class="row">
+					<div  class="col-sm-3"></div>
+					<div class="col-sm-4; text-left">
+					<div class="form-group">
+						 아이디 중복 확인 <input class="form-control" type="text" name="memberIdCheck" id="memberIdCheck">
+						<span th:text="${msgCheck}" id="idCheckHelper"></span>
+					</div>
+					</div>
+					<div  class="col-sm-3">
+					<br>
+					<button class="btn btn-secondary" id="idBtn" type="button" style="height:38px;">중복체크</button>
+					</div>
+					
+					</div>
+				</form>
+		
+			
+				<form id="myform" method="post" action="/addMember" enctype="multipart/form-data">
+				<div class="row">
+				<div  class="col-sm-3"></div>
+					<div class="col-sm-4; text-left">
+					<div class="form-group">
+						사진 <input class="form-control" type="file" name="memberPic"
+							id="memberPic"> 
+					</div>
+					<div class="form-group">
+						아이디 <input class="form-control" type="text" name="memberId" th:value="${memberIdCheck}"
+							id="memberId" readonly="readonly"> <span id="idHelper"></span>
+					</div>
+					<div class="form-group">
+						비밀번호 <input class="form-control" type="text" name="memberPw"
+							id="memberPw"> <span id="pwHelper"></span>
+					</div>
+					<div>
+						비밀번호 확인 <input class="form-control" type="text" name="memberPw2"
+							id="memberPw2">
+					</div>
+					<div class="form-group">
+						이름 <input class="form-control" type="text" name="memberName"
+							id="memberName"> <span id="nameHelper"></span>
+					</div>
+					<div class="form-group">
+						주소 <input class="form-control" type="text" name="memberAddr"
+							id="memberAddr"> <span id="addrHelper"></span>
+					</div>
+					<div class="form-group">
+						폰번호 <input class="form-control" type="text" name="memberPhone"
+							id="memberPhone"> <span id="phoneHelper"></span>
+					</div>
+					<div class="form-group">
+						이메일 <input class="form-control" type="text" name="memberEmail"
+							id="memberEmail"> <span id="emailHelper"></span>
+					</div>
+					<div>
+						<button class="btn btn-primary" id="btn" type="button">회원가입</button>
+					</div>
+					</div>
+					<div class="col-sm-4"></div>
+					</div>
+					
+				</form>
+				</div>
+				
+				</div>
+				</div>
+			
+			
+			
+		</div>
+	</div>
+</body>
+</html>

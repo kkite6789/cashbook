@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdu.cashbook.mapper.CashMapper">
+
+<select id="selectMonthPriceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.MonthAndPrice">
+	SELECT Month(cash_date)as month,
+			SUM(CASE WHEN cash_kind='수입' THEN cash_price
+					WHEN cash_kind='지출' THEN -cash_price END)as price
+	FROM cash
+	WHERE YEAR(cash_date)=${year}
+	AND member_id=#{memberId}
+	GROUP BY Month(cash_date)
+
+</select>
+
+<select id="selectDayAndPriceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.DayAndPrice">
+	SELECT DAY(cash_date)as day,
+			SUM(CASE WHEN cash_kind='수입' THEN cash_price
+				WHEN cash_kind='지출' THEN -cash_price END)as price
+	FROM cash
+	WHERE YEAR(cash_date) = #{year}
+	AND MONTH(cash_date) = #{month}
+	AND member_id=#{memberId}
+	GROUP BY DAY(cash_date)
+</select>
+<update id="updateCash" parameterType="com.gdu.cashbook.vo.Cash">
+	update
+	cash
+	SET
+	cash_kind=#{cashKind},
+	category_name=#{categoryName},
+	cash_price=#{cashPrice},
+	cash_place=#{cashPlace},
+	cash_memo=#{cashMemo}
+	WHERE
+	 cash_no=#{cashNo}
+</update>
+<delete id="deleteCash" parameterType="com.gdu.cashbook.vo.Cash">
+	DELETE
+	FROM cash
+	WHERE cash_no=#{cashNo}
+</delete>
+
+<select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
+	SELECT
+		cash_no as cashNo,
+		cash_kind as cashKind,
+		category_name as categoryName,
+		cash_price as cashPrice,
+		cash_place as cashPlace,
+		cash_memo as cashMemo
+	FROM cash
+	WHERE member_id = #{memberId}
+	AND cash_date = #{cashDate}
+	ORDER BY cash_no ASC
+</select>
+
+<select id="selectCashKindSum" parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
+SELECT
+	IFNULL((SELECT SUM(cash_price)
+	FROM cash
+	WHERE cash_kind='수입' AND member_id=#{memberId} AND cash_date=#{cashDate}),0)
+	-
+	IFNULL((SELECT SUM(cash_price)
+	FROM cash
+	WHERE cash_kind='지출' AND member_id=#{memberId} AND cash_date=#{cashDate}),0)
+FROM dual
+</select>
+
+<select id="selectCashKindSumMonth" parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
+SELECT
+	IFNULL((SELECT SUM(cash_price)
+	FROM cash
+	WHERE cash_kind='수입' AND member_id=#{memberId} AND YEAR(cash_date) = #{year} AND MONTH(cash_date) = #{month}),0)
+	-
+	IFNULL((SELECT SUM(cash_price)
+	FROM cash
+	WHERE cash_kind='지출' AND member_id=#{memberId} AND YEAR(cash_date) = #{year} AND MONTH(cash_date) = #{month}),0)
+FROM dual
+</select>
+
+<insert id="insertCash" parameterType="com.gdu.cashbook.vo.Cash" >
+<!-- 장소와 메모는 null가능 (db에서 하는게 나을것) -->
+	INSERT INTO cash(
+		cash_kind,
+		category_name,
+		cash_price,
+		cash_place,
+		cash_memo,
+		member_id,
+		cash_date
+	) VALUES(
+	#{cashKind},
+	#{categoryName},
+	#{cashPrice},
+	#{cashPlace},
+	#{cashMemo},
+	#{memberId},
+	#{cashDate}
+	)
+</insert>
+</mapper>

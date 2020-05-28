@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeLeaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<h1>회원정보</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>member_id</th>
+				<th>member_name</th>
+				<th>member_address</th>
+				<th>member_phone</th>
+				<th>member_email</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			<tr th:each="member : ${memberList}">
+				<td>"${member.memberId}"</td>
+				<td>"${member.memberName}"</td>
+				<td>"${member.memberAddr}"</td>
+				<td>"${member.memberPhone}"</td>
+				<td>"${member.memberEmail}"</td>
+			</tr>
+			
+		</tbody>
+	</table>
+</body>
+</html>
