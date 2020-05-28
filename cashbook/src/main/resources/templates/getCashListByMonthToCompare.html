@@ -120,8 +120,8 @@ font-size: 20px
 	<div id="aside" th:include="/include/menu::sidemenu"></div>
 	<div id="section">
 	<br>
-		<h1 class="text-center">월별 비교</h1>
-		
+		<h1 class="text-center" style="text-align:center; margin-right:300px;">월별 비교</h1>
+		<h2 class="text-center" style="text-align:center; margin-right:300px;" th:text="${year+'년'}"></h2>
 			<div th:each="month,index :${#numbers.sequence(1,12)}"
 				 th:class="${index.index%12} ==0 ? 'gd-clear gd-left': 'gd-left'">
 				<div ><a th:href="@{/getCashListByMonth(getMonth=${month},getYear=${year})}" th:text="${month+'월'}"></a></div>

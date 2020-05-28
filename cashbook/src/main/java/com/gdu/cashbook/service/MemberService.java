@@ -34,7 +34,6 @@ public class MemberService {
 	@Value("C:\\kkt\\sts_work\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\")
 	private String path;
 
-	
 	public int getMemberPw(Member member) {
 		UUID uuid=UUID.randomUUID();
 		String memberPw = uuid.toString().substring(0, 8);
