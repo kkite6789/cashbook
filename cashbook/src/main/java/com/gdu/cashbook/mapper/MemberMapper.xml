@@ -94,6 +94,11 @@
 		OR member_pw=#{memberPw})
 
 	</select>
+	<select id="selectLoginAdminMember"
+		parameterType="com.gdu.cashbook.vo.LoginMember"
+		resultType="com.gdu.cashbook.vo.LoginMember">>
+	
+	</select>
 	<select id="selectmemberList" parameterType="java.util.Map"
 		resultType="com.gdu.cashbook.vo.Member">
 		SELECT
