@@ -19,31 +19,38 @@ public class BoardService {
 	@Autowired
 	private BoardMapper boardMapper;
 	
-	public Map<String,Object> getBoardList(int currentPage,int rowPerPage){
+	public List<Board> getBoardList(int currentPage,int rowPerPage){
 		Map<String,Object>map = new HashMap<>();
 		int beginRow=(currentPage-1)*rowPerPage;
-		int totalRow = boardMapper.selectTotalRow();
-		System.out.println(totalRow+"<--totalRow");
-		int lastPage = totalRow / rowPerPage;
-		if(totalRow % rowPerPage != 0) {
-			lastPage += 1;
-		}
 		
-		List<Board> list = boardMapper.selectBoardList(beginRow, rowPerPage);
-		map.put("lastPage", lastPage);
-		map.put("list", list);
-		return map;
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		return boardMapper.selectBoardList(map);
 	}
+	
 	public Board getBoardOne(int boardNo) {
 		return boardMapper.selectBoardOne(boardNo);
 	}
-	public List<Comment> getCommentList(int boardNo){
+	
+	public List<Comment> getCommentList(int currentPage,int rowPerPage,int boardNo){
 		System.out.println("commentservice시작");
-		List<Comment> commentList =boardMapper.selectCommentList(boardNo);
+		Map<String,Object>map = new HashMap<>();
+		int beginRow=(currentPage-1)*rowPerPage;
+		
+		map.put("beginRow", beginRow);
+		map.put("rowPerPage", rowPerPage);
+		map.put("boardNo", boardNo);
+		List<Comment> commentList =boardMapper.selectCommentList(map);
 		System.out.println(commentList.toString());
 		return commentList;
 		
 	
+	}
+	public int selectTotalRow() {
+		return boardMapper.selectTotalRow();
+	}
+	public int selectCommentTotalRow() {
+		return boardMapper.selectCommentTotalRow();
 	}
 	public int addBoard(Board board) {
 		return boardMapper.insertBoard(board);

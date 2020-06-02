@@ -53,7 +53,6 @@
 	</select>
 
 
-
 	<select id="selectMemberOne"
 		parameterType="com.gdu.cashbook.vo.LoginMember"
 		resultType="com.gdu.cashbook.vo.Member">
@@ -63,7 +62,8 @@
 		member_addr as memberAddr,
 		member_phone as memberPhone,
 		member_email as memberEmail,
-		member_pic as memberPic
+		member_pic as memberPic,
+		member_level as memberLevel
 		FROM member
 		WHERE member_id=#{memberId}
 
@@ -94,21 +94,35 @@
 		OR member_pw=#{memberPw})
 
 	</select>
-	<select id="selectLoginAdminMember"
+	<select id="selectAdminMember"
 		parameterType="com.gdu.cashbook.vo.LoginMember"
 		resultType="com.gdu.cashbook.vo.LoginMember">>
 	
+		SELECT
+		member_id as memberId,
+		member_pw as memberPw
+		FROM member
+		WHERE member_id=#{memberId}
+		AND member_level='1'
+		AND (member_pw=PASSWORD(#{memberPw})
+		OR member_pw=#{memberPw})
+	
 	</select>
-	<select id="selectmemberList" parameterType="java.util.Map"
+	<select id="selectTotalRow" resultType="int">
+	SELECT count(*)
+	FROM member
+	WHERE member_level ='0'
+	</select>
+	<select id="selectMemberList" parameterType="java.util.Map"
 		resultType="com.gdu.cashbook.vo.Member">
 		SELECT
 		member_id as memberId,
-		member_pw as memberPw,
 		member_name as memberName,
 		member_addr as memberAddr,
 		member_phone as memberPhone,
 		member_email as memberEmail
 		FROM member
+		WHERE member_level='0'
 		ORDER BY member_id
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
@@ -119,6 +133,12 @@
 		AND member_pw = PASSWORD(#{memberPw})
 	</delete>
 
+	<delete id="deleteMemberId" parameterType="String">
+		DELETE
+		FROM member
+		WHERE member_id=#{memberId}
+	</delete>
+	
 	<update id="updateMember"
 		parameterType="com.gdu.cashbook.vo.Member">
 		Update

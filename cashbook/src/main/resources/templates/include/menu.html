@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-  <divnk rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/divbs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/divbs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -39,7 +39,12 @@ margin-left: 50px;
 			
 			<div id="hello">
 				<div th:text="${session.loginMember.memberId}"></div>
+			<div th:if="${session.level}=='0'">
 				<div th:text="일반회원"></div>
+			</div>
+			<div th:if="${session.level}=='1'">
+			<div th:text="관리자"></div>
+			</div>
 			</div>
 		</div>
 		<br>
@@ -50,11 +55,16 @@ margin-left: 50px;
 			<div class="item" id="goHome"><a th:href="@{/home}">홈</a></div>
 			
 			<div class="item" id="goInfo"><a th:href="@{/memberInfo}">회원정보</a></div>
+			<div th:if="${session.level}=='1'">
+				<div class="item" id="goUser"><a th:href="@{/getMemberList}">사용자관리</a></div>
+			</div>
 			
-			<div class="item" id="goDate"><a th:href="@{/getCashListByDate}">일일 가계부</a></div>
-			
-			<div class="item" id="goMonth"><a th:href="@{/getCashListByMonth}">월별 가계부</a></div>
-			
+			<div th:if="${session.level}=='0'">
+				<div class="item" id="goDate"><a th:href="@{/getCashListByDate}">일일 가계부</a></div>
+			</div>
+			<div th:if="${session.level}=='0'">
+				<div class="item" id="goMonth"><a th:href="@{/getCashListByMonth}">월별 가계부</a></div>
+			</div>
 			<div class="item" id="goQna"><a th:href="@{/getBoardList}">게시판</a></div>
 			
 			<div class="item" id="goLogout"><a th:href="@{/logout}">로그아웃</a></div>

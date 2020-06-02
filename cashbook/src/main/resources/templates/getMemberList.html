@@ -18,13 +18,7 @@
         margin-left: -50px;
         /* text-decoration: none; */
     }
-    
-#hello{
-	font-size: 20px;
-	text-align:center;
-	
-}
-	.gobtn{
+    	.gobtn{
 	margin-left: 10px;
     font-size: 18px; 
     color: rgb(131, 131, 131); 
@@ -50,6 +44,12 @@
 	 display:flex;
     justify-content:space-between;
 	}
+#hello{
+	font-size: 20px;
+	text-align:center;
+	
+}
+
 #box12{
 height:350px;
 display:flex;
@@ -64,16 +64,13 @@ color:black;
 display:flex;
 justify-content:space-around;
 }
-	.headline{
-	 display:flex;
-    justify-content:space-between;
-	}
+
 .item a:hover{
 color:white;
 text-decoration: none;
 font-size: 20px
 }
-#goQna a{
+#goUser a{
 color:white;
 }
     #section {
@@ -83,40 +80,50 @@ color:white;
 </style>
 </head>
 <body>
-	<div class="container">
-	<div id="box1">
+<div class="container">
+
 	<div id="aside" th:include="/include/menu::sidemenu"></div>
-	</div>
+
 		<div id="section">
 		<br>
+			<h1 class="text-center">memberList</h1>
+			<br>
 			<div th:class="headline">
 				
-				<span th:if="${currentPage}>1"><a class="btn gobtn" th:href="@{getBoardList(currentPage=${currentPage}-1)}" th:text="이전"></a></span> 
-				<span th:unless="${currentPage}>1"><a class="btn gobtn" th:href="@{getBoardList}">이전</a></span> 
-				<h1 class="text-center">board</h1>
-				<span th:if="${currentPage}<${lastPage}" style="float: right"> <a class="btn gobtn2" th:href="@{getBoardList(currentPage=${currentPage}+1)}">다음</a></span>
-				<span th:unless="${currentPage}<${lastPage}" style="float: right"> <a class="btn gobtn2" th:href="@{getBoardList(currentPage=${lastPage})}">다음</a></span>
+				<span th:if="${currentPage}>1"> <a class="btn gobtn" th:href="@{getMemberList(currentPage=${currentPage}-1)}">이전</a></span> 
+				<span th:unless="${currentPage}>1"> <a class="btn gobtn" th:href="@{getMemberList}">이전</a></span> 
+				
+				<h1 class="text-center">명단</h1>
+				
+				<span th:if="${currentPage}<${lastPage}" style="float: right"> <a class="btn gobtn2" th:href="@{getMemberList(currentPage=${currentPage}+1)}">다음</a></span>
+				<span th:unless="${currentPage}<${lastPage}" style="float: right"> <a class="btn gobtn2" th:href="@{getMemberList(currentPage=${lastPage})}">다음</a></span>
 			</div>
-		<br>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>글 제목</th>
-						<th>작성자</th>
-						<th>날짜</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="board, index : ${boardList}">
-						<td th:text="${board.boardNo}"></td>
-						<td th:text="${board.boardWriter}"></td>
-						<td><a th:href="@{getBoardOne(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
-						<td th:text="${board.boardDate}"></td>
-					</tr>
-				</tbody>
-			</table>
-			<a class="btn btn-primary" th:href="@{addBoard}" th:text="생성"></a>
+			<br>
+			<table class="table-bordered">
+		<thead>
+			<tr>
+				<th>member_id</th>
+				<th>member_name</th>
+				<th>member_address</th>
+				<th>member_phone</th>
+				<th>member_email</th>
+				<th>회원탈퇴</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			<tr th:each="member : ${list}">
+				<td th:text="${member.memberId}"></td>
+				<td th:text="${member.memberName}"></td>
+				<td th:text="${member.memberAddr}"></td>
+				<td th:text="${member.memberPhone}"></td>
+				<td th:text="${member.memberEmail}"></td>
+				<td> <a th:text="회원삭제" th:href="@{removeMemberId(memberId=${member.memberId})}"></a></td>
+			</tr>
+			
+		</tbody>
+	</table>
+		
 		</div> 
 </div>
 </body>

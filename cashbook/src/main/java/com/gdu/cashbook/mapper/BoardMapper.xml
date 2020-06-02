@@ -45,6 +45,13 @@ FROM board
 
 
 </select>
+<select id="selectCommentTotalRow" resultType="int">
+
+SELECT count(*)
+FROM comment
+
+
+</select>
 <select id="selectBoardList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.Board">
 SELECT  
 	board_no as boardNo,
@@ -85,7 +92,7 @@ INSERT INTO comment(
 </update>
 
 
-<select id="selectCommentList" parameterType="int" resultType="com.gdu.cashbook.vo.Comment">
+<select id="selectCommentList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.Comment">
 	SELECT 
 		comment_no as commentNo,
 		comment_content as commentContent,
@@ -94,7 +101,9 @@ INSERT INTO comment(
 	FROM
 		comment
 	WHERE
-		board_no=#{boardNo};
+		board_no=#{boardNo}
+	ORDER BY comment_no DESC
+	LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 
 <select id="selectBoardOne" parameterType="int" resultType="com.gdu.cashbook.vo.Board">

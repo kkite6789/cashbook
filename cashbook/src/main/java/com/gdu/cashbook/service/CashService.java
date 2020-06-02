@@ -48,6 +48,10 @@ public class CashService {
 		return cashMapper.selectDayAndPriceList(map);
 	}
 	
+	public int removeCashName(String memberId) {
+		return cashMapper.deleteCashName(memberId);
+	}
+	
 	public int addCash(Cash cash) {
 		return cashMapper.insertCash(cash);
 	}

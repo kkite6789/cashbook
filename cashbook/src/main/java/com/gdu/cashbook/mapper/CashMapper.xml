@@ -42,7 +42,11 @@
 	FROM cash
 	WHERE cash_no=#{cashNo}
 </delete>
-
+<delete id="deleteCashName" parameterType="String">
+	DELETE
+	FROM cash
+	WHERE member_id=#{memberId}
+</delete>
 <select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
 	SELECT
 		cash_no as cashNo,

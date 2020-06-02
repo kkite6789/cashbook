@@ -1,7 +1,6 @@
 package com.gdu.cashbook.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gdu.cashbook.mapper.CashMapper;
 import com.gdu.cashbook.mapper.DeletedMemberMapper;
 import com.gdu.cashbook.mapper.MemberMapper;
-import com.gdu.cashbook.vo.DeletedMember;
+import com.gdu.cashbook.vo.Admin;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
 import com.gdu.cashbook.vo.MemberForm;
@@ -29,6 +29,8 @@ public class MemberService {
 	private MemberMapper memberMapper;
 	@Autowired
 	private DeletedMemberMapper deletedMemberMapper;
+	@Autowired
+	private CashMapper cashMapper;
 	@Autowired
 	private JavaMailSender javaMailSender;//@Component
 	@Value("C:\\kkt\\sts_work\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\")
@@ -68,18 +70,26 @@ public class MemberService {
 	public Member getMemberOne(LoginMember loginMember) {
 		return memberMapper.selectMemberOne(loginMember);
 	}
+	public Admin getAdminOne(LoginMember loginMember) {
+		return memberMapper.selectAdminOne(loginMember);
+	}
 	
 	public String checkMemberId(String memberIdCheck) {
 		return memberMapper.selectMemberId(memberIdCheck); // 결과물은 memberId나 null이 리턴된다
 	}
 	
+	public LoginMember loginAdmin(LoginMember loginMember) {
+		return memberMapper.selectLoginMember(loginMember);	
+	}
+	
 	public LoginMember login(LoginMember loginMember) {
 		return memberMapper.selectLoginMember(loginMember);
 	}
-	
+
 	public List<Member> getMemberList(int currentPage,int rowPerPage){
 		Map<String,Object> map = new HashMap<>();
 		int beginRow = (currentPage-1)*rowPerPage;
+		
 		map.put("beginRow", beginRow);
 		map.put("rowPerPage", rowPerPage);
 		return memberMapper.selectMemberList(map);
@@ -138,6 +148,46 @@ public class MemberService {
 		
 		
 	}
+	public int selectTotalRow() {
+		return memberMapper.selectTotalRow();
+	}
+	
+	public int removeMemberId(String memberId) {
+		
+		//1. 멤버 이미지 파일 삭제
+				// 1_1 파일이름 select member_pic from member
+				String memberPic = memberMapper.selectMemberPic(memberId);
+				System.out.println(memberPic+"<---memberPic");
+				//1_2. 파일 삭제
+				//String path2 ="C:\\kkt\\sts_work\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\";
+				File file = new File(path+memberPic);//사진은 memberId와 이름이 동일하다.
+				System.out.println(file+"<---file");
+				if(file.exists()) {
+					file.delete();
+				}
+				int result =0;
+				//2. 트랜잭션 처리
+				int deleteCashResult=cashMapper.deleteCashName(memberId);
+				if(deleteCashResult == 1) {
+					System.out.println("캐시내역 삭제 성공");
+				} else {
+					System.out.println("캐시내역 삭제 실패");
+				}
+				Member member = new Member();
+				result = memberMapper.deleteMemberId(memberId);
+				if(result==1) {
+				member.setMemberId(memberId);
+				deletedMemberMapper.insertDeletedMember(memberId);
+					System.out.println("멤버 삭제 성공");
+				}
+				else {
+					System.out.println("멤버 삭제 실패");
+				}
+				
+				return result;
+		
+	}
+	
 	public int removeMember(LoginMember loginMember) {
 		
 		//1. 멤버 이미지 파일 삭제
@@ -162,6 +212,7 @@ public class MemberService {
 		return result;
 		
 	}
+	
 	public int addDeletedMember(String deletedMemberId) {
 		return deletedMemberMapper.insertDeletedMember(deletedMemberId);
 	}

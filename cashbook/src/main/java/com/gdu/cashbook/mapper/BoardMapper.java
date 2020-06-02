@@ -10,9 +10,9 @@ import com.gdu.cashbook.vo.Comment;
 @Mapper
 public interface BoardMapper {
 
-	public List<Board> selectBoardList(int beginRow, int rowPerPage);
+	public List<Board> selectBoardList(Map<String,Object> map);
 	public Board selectBoardOne(int boardNo);
-	public List<Comment> selectCommentList(int boardNo);
+	public List<Comment> selectCommentList(Map<String,Object> map);
 	
 	public int insertBoard(Board board);
 	public int updateBoard(Board board);
@@ -22,4 +22,5 @@ public interface BoardMapper {
 	public int updateComment(Comment comment);
 	public int deleteComment(Comment comment);
 	public int selectTotalRow();
+	public int selectCommentTotalRow();
 }

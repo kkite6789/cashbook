@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook.mapper.MemberMapper;
+import com.gdu.cashbook.service.CashService;
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
@@ -144,8 +145,24 @@ public class MemberController {
 		}
 		
 		memberService.removeMember(loginMember); // 삭제 메서드 호출
+		CashService cashService = new CashService();
 		session.invalidate();
 		return "redirect:/home";
+	}
+	
+	@GetMapping("removeMemberId")
+	public String removeMemberId(HttpSession session,@RequestParam(value="memberId") String memberId) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		int result = memberService.removeMemberId(memberId);
+		if(result == 1) {
+			System.out.println("강퇴 성공");
+		} else {
+			System.out.println("강퇴 실패");
+		}
+		return "redirect:/getMemberList";
 	}
 	
 	@GetMapping("/memberInfo")
@@ -180,6 +197,14 @@ public class MemberController {
 		return "addMember";
 	}
 	
+	@GetMapping("/adminHome")
+	public String adminhome(HttpSession session) {
+		if(session.getAttribute("loginMember")==null) {
+			return "redirect:/login";
+		}
+		return "adminHome";		
+	}
+	
 	@GetMapping("/forgotId")
 	public String forgotId(HttpSession session) {
 		if(session.getAttribute("loginMember") != null){//로그인 중일 때
@@ -205,6 +230,7 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
+		
 		System.out.println(loginMember.toString());
 		LoginMember returnLoginMember = memberService.login(loginMember);
 		System.out.println(returnLoginMember+"<--returnLoginMember");
@@ -216,6 +242,17 @@ public class MemberController {
 			member=memberService.getMemberOne(returnLoginMember);
 			System.out.println(member.toString());
 			System.out.println(member.getMemberPic());
+		/*
+			if(member.getMemberLevel()==1){
+				System.out.println(loginMember.toString());
+				returnLoginMember = memberService.login(loginMember);
+				System.out.println(returnLoginMember+"<--returnLoginMember");
+				session.setAttribute("memberPic", member.getMemberPic());
+				session.setAttribute("loginMember", returnLoginMember);
+				return "redirect:/adminHome";
+			}
+		*/
+			session.setAttribute("level", member.getMemberLevel());
 			session.setAttribute("memberPic", member.getMemberPic());
 			session.setAttribute("loginMember", returnLoginMember);
 			return "redirect:/home";
@@ -254,13 +291,25 @@ public class MemberController {
 		memberService.addMember(memberForm);
 		return "redirect:/index";
 	}
-	@GetMapping("/getMember")
-	public String MemberList(Model model,@RequestParam(value="currentPage", defaultValue="1")int currentPage){
-		final int rowPerPage=5;
+	@GetMapping("/getMemberList")
+	public String getMemberList(HttpSession session,Model model, @RequestParam(value="currentPage", defaultValue="1")int currentPage){
+		System.out.println("getMemberList시작");
+		final int rowPerPage=2;
+		
+		int totalRow = memberService.selectTotalRow();
+		int lastPage = totalRow / rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		System.out.println(currentPage+"<--currentPage");
+		System.out.println(lastPage+"<--lastPage");
+		
+		
 		List<Member>list = memberService.getMemberList(currentPage, rowPerPage);
+		System.out.println(list.size()+"<--list size");
+		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("list",list);
 		model.addAttribute("currentPage",currentPage);
-		model.addAttribute("rowPerPage", rowPerPage);
-		return "memberList";
+		return "getMemberList";
 	}
 }

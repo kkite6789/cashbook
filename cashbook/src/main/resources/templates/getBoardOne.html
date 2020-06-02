@@ -182,9 +182,14 @@ $(document).ready(function() {
 			
 						<span>
 							<span><a class="btn btn-primary go1" th:href="@{getBoardList}" th:text="목록으로"></a></span>
-							<span><a class="btn btn-primary go1" id="update" th:href="@{replaceBoard(boardNo=${board.boardNo})}" th:text="수정"></a></span>
+							<span th:switch="${memberId}">
+							<span th:case="${board.boardWriter}">
+								<span><a class="btn btn-primary go1" id="update" th:href="@{replaceBoard(boardNo=${board.boardNo})}" th:text="수정"></a></span>
+								<span><a class="btn btn-primary go1" id="delete" th:href="@{removeBoard(boardNo=${board.boardNo})}" th:text="삭제"></a></span>
+							</span>
+							<span th:case="admin">
 							<span><a class="btn btn-primary go1" id="delete" th:href="@{removeBoard(boardNo=${board.boardNo})}" th:text="삭제"></a></span>
-							
+							</span>
 						</span>
 						
 						<br>
@@ -200,10 +205,27 @@ $(document).ready(function() {
 						<div th:each="comment, index : ${commentList}">
 							<input type="text" class="comment" id="commentWriter" th:value="${comment.commentWriter}" readonly>
 							<input type="text" class="comment" id="commentContent" th:value="${comment.commentContent}" readonly>
-							<a class="btn btn-secondary commentbtn" th:href="@{replaceComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}" th:text="수정"></a>
-							<a class="btn btn-secondary commentbtn"  th:href="@{removeComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}"  th:text="삭제"></a>
+							
+							 <span th:switch="${memberId}">
+								 <span th:case="${comment.commentWriter}">
+									<a class="btn btn-secondary commentbtn" th:href="@{replaceComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}" th:text="수정"></a>
+									<a class="btn btn-secondary commentbtn"  th:href="@{removeComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}"  th:text="삭제"></a>
+								 </span>
+								 <span th:case="admin">
+									<a class="btn btn-secondary commentbtn"  th:href="@{removeComment(boardNo=${board.boardNo},commentNo=${comment.commentNo})}"  th:text="삭제"></a>
+								</span>
+							</span>
 						</div>
-			
+				  <br>
+				<div>
+				
+					<span th:if="${currentPage}>1"> <a class="btn gobtn" th:href="@{getBoardOne(boardNo=${board.boardNo},currentPage=${currentPage-1})}">이전</a></span> 
+					<span th:unless="${currentPage}>1"> <a class="btn gobtn" th:href="@{getBoardOne(boardNo=${board.boardNo})}">이전</a></span> 
+					
+					
+					<span th:if="${currentPage}<${lastPage}" style="float: right"> <a class="btn gobtn2" th:href="@{getBoardOne(currentPage=${currentPage+1},boardNo=${board.boardNo})}">다음</a></span>
+					<span th:unless="${currentPage}<${lastPage}" style="float: right"> <a class="btn gobtn2" th:href="@{getBoardOne(currentPage=${lastPage},boardNo=${board.boardNo})}">다음</a></span>
+				</div>
 			
 		</div> 
 </div>

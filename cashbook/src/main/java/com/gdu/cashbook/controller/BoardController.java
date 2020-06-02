@@ -18,6 +18,7 @@ import com.gdu.cashbook.service.BoardService;
 import com.gdu.cashbook.vo.Board;
 import com.gdu.cashbook.vo.Comment;
 import com.gdu.cashbook.vo.LoginMember;
+import com.gdu.cashbook.vo.Member;
 
 @Controller
 public class BoardController {
@@ -148,10 +149,12 @@ public class BoardController {
 	
 	//보드중에 하나만
 	@GetMapping("/getBoardOne")
-	public String getBoardOne(HttpSession session,@RequestParam(value="boardNo")int boardNo,Board board,Model model) {
+	public String getBoardOne(HttpSession session,@RequestParam(value="boardNo")int boardNo,Board board,Model model,@RequestParam(value="currentPage", defaultValue="1")int currentPage) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		String memberId = ((LoginMember)session.getAttribute("loginMember")).getMemberId();
+		final int rowPerPage=5;
 		System.out.println("getBoardOne controller 시작");
 		System.out.println(board.toString());
 		System.out.println(board.getBoardNo()+"<--해당 boardNo");
@@ -160,12 +163,25 @@ public class BoardController {
 		System.out.println(boardNo+"<--boardNo");
 		System.out.println(board.toString());
 		System.out.println(board.getBoardNo()+"<--해당 boardNo  (댓글검색에 넣을 boardNo)");
-		List<Comment>commentList=boardService.getCommentList(boardNo);
+		System.out.println(memberId+"<--현재 로그인 memberId");
+		
+		int totalRow = boardService.selectTotalRow();
+		int lastPage = totalRow / rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		System.out.println(currentPage+"<--currentPage");
+		System.out.println(lastPage+"<--lastPage");
+		
+		List<Comment>commentList=boardService.getCommentList(currentPage,rowPerPage,boardNo);
 		
 		System.out.println(board.toString());
 		System.out.println(commentList.toString());
-		model.addAttribute("co	mmentList", commentList);
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("board", board);
+		model.addAttribute("memberId", memberId);
 		return "getBoardOne";
 	}
 	
@@ -176,18 +192,24 @@ public class BoardController {
 			return "redirect:/";
 		}
 		System.out.println("getBoardList controller 시작");
-		int rowPerPage=1;
-	
+		final int rowPerPage=5;
 
+		int totalRow = boardService.selectTotalRow();
+		int lastPage = totalRow / rowPerPage;
+		if(totalRow % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		System.out.println(currentPage+"<--currentPage");
+		System.out.println(lastPage+"<--lastPage");
 
 		String memberId = ((LoginMember)session.getAttribute("loginMember")).getMemberId();
-		rowPerPage=10;
-		Map<String, Object> boardList = boardService.getBoardList(currentPage,rowPerPage);
+		
+		List<Board> boardList = boardService.getBoardList(currentPage,rowPerPage);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("memberId", memberId);
-		model.addAttribute("lastPage", boardList.get("lastPage"));
+		model.addAttribute("lastPage", lastPage);
 		
-		model.addAttribute("boardList", boardList.get("list"));
+		model.addAttribute("boardList", boardList);
 		
 		return "getBoardList";
 	}

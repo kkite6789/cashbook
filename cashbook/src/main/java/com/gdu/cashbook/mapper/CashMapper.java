@@ -21,4 +21,5 @@ public interface CashMapper {
 	public int insertCash(Cash cash);
 	public int deleteCash(Cash cash);
 	public int updateCash(Cash cash);
+	public int deleteCashName(String MemberId);
 }
