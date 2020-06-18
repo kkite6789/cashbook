@@ -8,7 +8,7 @@
 		메일로 전송 -->
 	<update id="updateMemberPw"
 		parameterType="com.gdu.cashbook.vo.Member">
-		UPDATE member
+		UPDATE cashbook_member
 		SET member_pw =#{memberPw}
 		WHERE member_id = #{memberId}
 		AND member_email = #{memberEmail}
@@ -18,7 +18,7 @@
 	
 	<select id="selectMemberPic" parameterType="String" resultType="String">
 		SELECT member_pic
-		FROM member
+		FROM cashbook_member
 		WHERE member_id=#{memebrId}
 	</select>
 	
@@ -26,7 +26,7 @@
 	<select id="selectConfirmMemberCount" resultType="int" parameterType="com.gdu.cashbook.vo.Member">
 		SELECT
 			COUNT(*)
-		FROM member
+		FROM cashbook_member
 		WHERE member_id = #{memberId}
 		AND member_pw = PASSWORD(#{memberPw})
 	</select>
@@ -36,7 +36,7 @@
 		parameterType="com.gdu.cashbook.vo.Member"
 		resultType="com.gdu.cashbook.vo.Member">
 		SELECT *
-		FROM member
+		FROM cashbook_member
 		WHERE member_id = #{memberId}
 		AND member_email = #{memberEmail}
 
@@ -46,7 +46,7 @@
 		parameterType="com.gdu.cashbook.vo.Member" resultType="String">
 		SELECT
 		CONCAT(SUBSTRING(member_id,1,3),'****')
-		FROM member
+		FROM cashbook_member
 		WHERE member_name = #{memberName}
 		AND member_phone = #{memberPhone}
 		AND member_email = #{memberEmail}
@@ -64,7 +64,7 @@
 		member_email as memberEmail,
 		member_pic as memberPic,
 		member_level as memberLevel
-		FROM member
+		FROM cashbook_member
 		WHERE member_id=#{memberId}
 
 	</select>
@@ -75,9 +75,9 @@
 		SELECT
 		member_id
 		FROM(
-		SELECT member_id from member
+		SELECT member_id from cashbook_member
 		UNION
-		SELECT member_id from deletedmember
+		SELECT member_id from cashbook_deletedmember
 		)t
 		WHERE member_id=#{memberIdCheck}
 
@@ -88,7 +88,7 @@
 		SELECT
 		member_id as memberId,
 		member_pw as memberPw
-		FROM member
+		FROM cashbook_member
 		WHERE member_id=#{memberId}
 		AND (member_pw=PASSWORD(#{memberPw})
 		OR member_pw=#{memberPw})
@@ -101,7 +101,7 @@
 		SELECT
 		member_id as memberId,
 		member_pw as memberPw
-		FROM member
+		FROM cashbook_member
 		WHERE member_id=#{memberId}
 		AND member_level='1'
 		AND (member_pw=PASSWORD(#{memberPw})
@@ -110,7 +110,7 @@
 	</select>
 	<select id="selectTotalRow" resultType="int">
 	SELECT count(*)
-	FROM member
+	FROM cashbook_member
 	WHERE member_level ='0'
 	</select>
 	<select id="selectMemberList" parameterType="java.util.Map"
@@ -121,28 +121,28 @@
 		member_addr as memberAddr,
 		member_phone as memberPhone,
 		member_email as memberEmail
-		FROM member
+		FROM cashbook_member
 		WHERE member_level='0'
 		ORDER BY member_id
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	<delete id="deleteMember" parameterType="com.gdu.cashbook.vo.LoginMember">
 		DELETE
-		FROM member
+		FROM cashbook_member
 		WHERE member_id=#{memberId}
 		AND member_pw = PASSWORD(#{memberPw})
 	</delete>
 
 	<delete id="deleteMemberId" parameterType="String">
 		DELETE
-		FROM member
+		FROM cashbook_member
 		WHERE member_id=#{memberId}
 	</delete>
 	
 	<update id="updateMember"
 		parameterType="com.gdu.cashbook.vo.Member">
 		Update
-		member
+		cashbook_member
 		SET
 		member_pw=PASSWORD(#{memberPw}),
 		member_name=#{memberName},
@@ -156,7 +156,7 @@
 	</update>
 	<insert id="insertMember"
 		parameterType="com.gdu.cashbook.vo.Member">
-		INSERT INTO member(
+		INSERT INTO cashbook_member(
 		member_id,
 		member_pw,
 		member_name,

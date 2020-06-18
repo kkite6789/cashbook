@@ -69,7 +69,7 @@ $(document).ready(function() {
 		<div id="section">
 		<br>
 			<h1 class="text-center">보드 입력</h1>
-			<form id="myform" method="post" action="/addBoard">
+			<form id="myform" method="post" th:action="@{addBoard}">
 				<div class="form-group">
 					<div>제목:</div>
 					<div><input type="text" class="form-control" name="boardTitle" placeholder="제목을 입력하세요."></div>

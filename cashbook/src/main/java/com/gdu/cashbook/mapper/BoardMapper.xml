@@ -5,7 +5,7 @@
 <mapper namespace="com.gdu.cashbook.mapper.BoardMapper">
 
 <insert id="insertBoard" parameterType="com.gdu.cashbook.vo.Board">
-INSERT INTO board(
+INSERT INTO cashbook_board(
 	board_title,
 	board_content,
 	board_writer,
@@ -22,14 +22,14 @@ INSERT INTO board(
 <delete id="deleteBoard" parameterType="com.gdu.cashbook.vo.Board">
 DELETE
 FROM
-	board
+	cashbook_board
 WHERE 
 	board_no=#{boardNo}
 </delete>
 
 <update id="updateBoard" parameterType="com.gdu.cashbook.vo.Board">
 UPDATE
-	board
+	cashbook_board
 SET
 	board_title=#{boardTitle},
 	board_content=#{boardContent},
@@ -41,14 +41,14 @@ WHERE
 <select id="selectTotalRow" resultType="int">
 
 SELECT count(*)
-FROM board
+FROM cashbook_board
 
 
 </select>
 <select id="selectCommentTotalRow" resultType="int">
 
 SELECT count(*)
-FROM comment
+FROM cashbook_comment
 
 
 </select>
@@ -59,19 +59,19 @@ SELECT
 	board_content as boardContent,
 	board_writer as boardWriter,
 	board_date as boardDate
-FROM board
+FROM cashbook_board
 ORDER BY board_date DESC
 LIMIT #{beginRow}, #{rowPerPage};
 
 </select>
 <delete id="deleteComment" parameterType="com.gdu.cashbook.vo.Comment">
 DELETE FROM
-	comment
+	cashbook_comment
 WHERE
 	comment_no=#{commentNo}
 </delete>
 <insert id="insertComment" parameterType="com.gdu.cashbook.vo.Comment">
-INSERT INTO comment(
+INSERT INTO cashbook_comment(
 	comment_content,
 	board_no,
 	comment_writer
@@ -84,7 +84,7 @@ INSERT INTO comment(
 
 <update id="updateComment" parameterType="com.gdu.cashbook.vo.Comment">
 	UPDATE 
-		comment
+		cashbook_comment
 	SET
 		comment_content=#{commentContent}
 	WHERE 
@@ -99,7 +99,7 @@ INSERT INTO comment(
 		comment_writer as commentWriter,
 		board_no as boardNo
 	FROM
-		comment
+		cashbook_comment
 	WHERE
 		board_no=#{boardNo}
 	ORDER BY comment_no DESC
@@ -113,7 +113,7 @@ SELECT
 	board_content as boardContent,
 	board_writer as boardWriter,
 	board_date as boardDate
-FROM board
+FROM cashbook_board
 WHERE board_no=#{boardNo}
 </select>
 </mapper>

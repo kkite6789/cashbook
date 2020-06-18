@@ -70,7 +70,7 @@ $(document).ready(function() {
 		<div id="section">
 		<br>
 			<h1 class="text-center">댓글 수정</h1>
-		<form id="myform" method="post" action="/replaceComment">
+		<form id="myform" method="post" th:action="@{/replaceComment}">
 			<div>
 				<label>내용:</label>
 				<input type="text" name="commentContent">

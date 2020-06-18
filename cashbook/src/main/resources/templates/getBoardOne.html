@@ -180,7 +180,7 @@ $(document).ready(function() {
 						
 			</div>
 			
-						<span>
+						
 							<span><a class="btn btn-primary go1" th:href="@{getBoardList}" th:text="목록으로"></a></span>
 							<span th:switch="${memberId}">
 							<span th:case="${board.boardWriter}">
@@ -195,7 +195,7 @@ $(document).ready(function() {
 						<br>
 						<br>
 						<div>
-						<form id="commentForm" method="post" action="/addComment">
+						<form id="commentForm" method="post" th:action="@{/addComment}">
 							<input type="text" id="inputComment" name="commentContent" placeholder="댓글 입력">
 							<input type="hidden" name="boardNo" th:value="${board.boardNo}">
 							<button type="button" id="commentbtn">입력</button>

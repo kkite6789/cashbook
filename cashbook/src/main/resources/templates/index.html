@@ -37,17 +37,17 @@
 				<div class="text-center" th:if="${session.loginMember != null}">
 					<p class="text-primary">ON</p> 
 					<br> 
-					<a href="/logout" class="btn btn-primary">로그아웃</a>
+					<a th:href="@{/logout}" class="btn btn-primary">로그아웃</a>
 				</div>
 				<div class="text-center" th:if="${session.loginMember == null}">
 					<p class="text-danger">OFF </p>
 					<br> 
-					<a href="/login" class="btn btn-primary">로그인</a>
+					<a th:href="@{/login}" class="btn btn-primary">로그인</a>
 				</div>
 
 				<br> <br>
 				<div class="text-center">
-					<a class="btn btn-primary" href="/addMember">회원가입</a>
+					<a class="btn btn-primary" th:href="@{/addMember}">회원가입</a>
 				</div>
 				<br> <br>
 				<div style="text-align: center">본 콘텐츠의 저작권은 제공처에 있으며, 이를 무단

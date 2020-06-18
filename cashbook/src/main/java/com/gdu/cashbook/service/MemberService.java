@@ -33,7 +33,8 @@ public class MemberService {
 	private CashMapper cashMapper;
 	@Autowired
 	private JavaMailSender javaMailSender;//@Component
-	@Value("C:\\kkt\\sts_work\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\")
+	@Value("/kkite6789/tomcat/webapps/cashbook/WEB-INF/classes/static/upload/") // cafe24
+	//@Value("C:\\kkt\\sts_work\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\") // localhost
 	private String path;
 
 	public int getMemberPw(Member member) {

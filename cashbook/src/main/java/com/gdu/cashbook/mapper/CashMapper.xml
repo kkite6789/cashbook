@@ -8,7 +8,7 @@
 	SELECT Month(cash_date)as month,
 			SUM(CASE WHEN cash_kind='수입' THEN cash_price
 					WHEN cash_kind='지출' THEN -cash_price END)as price
-	FROM cash
+	FROM cashbook_cash
 	WHERE YEAR(cash_date)=${year}
 	AND member_id=#{memberId}
 	GROUP BY Month(cash_date)
@@ -19,7 +19,7 @@
 	SELECT DAY(cash_date)as day,
 			SUM(CASE WHEN cash_kind='수입' THEN cash_price
 				WHEN cash_kind='지출' THEN -cash_price END)as price
-	FROM cash
+	FROM cashbook_cash
 	WHERE YEAR(cash_date) = #{year}
 	AND MONTH(cash_date) = #{month}
 	AND member_id=#{memberId}
@@ -27,7 +27,7 @@
 </select>
 <update id="updateCash" parameterType="com.gdu.cashbook.vo.Cash">
 	update
-	cash
+	cashbook_cash
 	SET
 	cash_kind=#{cashKind},
 	category_name=#{categoryName},
@@ -39,12 +39,12 @@
 </update>
 <delete id="deleteCash" parameterType="com.gdu.cashbook.vo.Cash">
 	DELETE
-	FROM cash
+	FROM cashbook_cash
 	WHERE cash_no=#{cashNo}
 </delete>
 <delete id="deleteCashName" parameterType="String">
 	DELETE
-	FROM cash
+	FROM cashbook_cash
 	WHERE member_id=#{memberId}
 </delete>
 <select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
@@ -55,7 +55,7 @@
 		cash_price as cashPrice,
 		cash_place as cashPlace,
 		cash_memo as cashMemo
-	FROM cash
+	FROM cashbook_cash
 	WHERE member_id = #{memberId}
 	AND cash_date = #{cashDate}
 	ORDER BY cash_no ASC
@@ -64,11 +64,11 @@
 <select id="selectCashKindSum" parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
 SELECT
 	IFNULL((SELECT SUM(cash_price)
-	FROM cash
+	FROM cashbook_cash
 	WHERE cash_kind='수입' AND member_id=#{memberId} AND cash_date=#{cashDate}),0)
 	-
 	IFNULL((SELECT SUM(cash_price)
-	FROM cash
+	FROM cashbook_cash
 	WHERE cash_kind='지출' AND member_id=#{memberId} AND cash_date=#{cashDate}),0)
 FROM dual
 </select>
@@ -76,18 +76,18 @@ FROM dual
 <select id="selectCashKindSumMonth" parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
 SELECT
 	IFNULL((SELECT SUM(cash_price)
-	FROM cash
+	FROM cashbook_cash
 	WHERE cash_kind='수입' AND member_id=#{memberId} AND YEAR(cash_date) = #{year} AND MONTH(cash_date) = #{month}),0)
 	-
 	IFNULL((SELECT SUM(cash_price)
-	FROM cash
+	FROM cashbook_cash
 	WHERE cash_kind='지출' AND member_id=#{memberId} AND YEAR(cash_date) = #{year} AND MONTH(cash_date) = #{month}),0)
 FROM dual
 </select>
 
 <insert id="insertCash" parameterType="com.gdu.cashbook.vo.Cash" >
 <!-- 장소와 메모는 null가능 (db에서 하는게 나을것) -->
-	INSERT INTO cash(
+	INSERT INTO cashbook_cash(
 		cash_kind,
 		category_name,
 		cash_price,

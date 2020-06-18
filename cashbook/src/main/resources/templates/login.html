@@ -42,7 +42,7 @@
 				<h1 class="text-center">로그인</h1>	
 				<br>
 				<br>
-				<form method="post" action="/login" id="loginForm">
+				<form method="post" th:action="@{/login}" id="loginForm">
 					
 						<div  class="form-group">
 							 <input class="form-control" type="text" id="memberIdCheck" name="memberId" placeholder="아이디" value="kkt1">
@@ -70,7 +70,7 @@
 						<br>
 						<br>
 						<span>
-							<a class=" btn btn-primary" id="makeBtn" href="/addMember">회원가입</a>
+							<a class=" btn btn-primary" id="makeBtn" th:href="@{/addMember}">회원가입</a>
 							
 						</span>
 					 
